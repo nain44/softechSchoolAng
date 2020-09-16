@@ -1,0 +1,199 @@
+<div class="row">
+    <div class="col-12 col-xl-12 grid-margin stretch-card">
+        <div class="card overflow-hidden">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-baseline mb-4 mb-md-3">
+                    <h6 class="card-title mb-0">Staff</h6>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <form class="form-inline mb-3" name="Form">
+                            <input name="firstname" type="text" class="form-control input col-md-2" ng-model="ther.tName" placeholder="Name">
+                            <input name="DOB" type="text" class="form-control input col-md-2 AddDOB" ng-model="ther.DOB" placeholder="Date Of Birth" />
+                            <input name="mobileno" type="text" class="form-control input col-md-2" ng-model="ther.tMobile" placeholder="Mobile No">
+                            <input name="address" type="text" class="form-control input col-md-2" ng-model="ther.tAddress" placeholder="Address">
+                            <input name="DOJ" type="text" class="form-control input col-md-2 AddDOB" ng-model="ther.doj" placeholder="Date Of Joining" />
+                            <input name="qualification" type="text" class="form-control input col-md-2" ng-model="ther.tQualification" placeholder="Qualification">
+                            <select name="gender" class="form-control input col-md-2" ng-model="ther.tGender">
+                                <option value="">Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                            <select ng-options="item.prf_title for item in rslt.allProffession track by item.prf_id" class="form-control input col-md-2" ng-model="ther.prff">
+                                <option value="" selected="">Select Proffession</option>
+                            </select>
+                            <label>Is Teacher</label>
+                            <input type="checkbox" ng-model="ther.isTeacher" class="form-control input" />
+                            <input name="image" id="image" type="file" class="form-control input col-md-2" file-upload file2>
+                            <button type="button" class="btn btn-success input" ng-if="!imgLoader" ng-click="addTeacher(ther)"><i class="ti-plus" aria-hidden="true"></i> Add</button><i class="fa fa-spinner fa-spin fa-2x" ng-if="imgLoader"></i>
+                        </form>
+                        <form class="form-inline float-right mb-3">
+                            <input class="form-control form-control-rounded" id="key-search" ng-model="Searchstaff" type="text" placeholder="Search ...">
+                        </form>
+                        <div class="tbl-mlmis">
+                            <table class="table table-hover">
+                                <thead class="thead-default">
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Name</th>
+                                        <th>Contact</th>
+                                        <th>Address</th>
+                                        <th>Proffession</th>
+                                        <th>Qualification</th>
+                                        <th>Joining Date</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="teacher in allTeacherArray|filter:Searchstaff">
+                                        <td>{{ $index+1 }}</td>
+                                        <td>
+                                            <span ng-if="teacher.stf_picture!=''">
+                                                <img class="img-circle mr-3" src="{{teacher.stf_picture}}" width="50" height="50" />
+                                            </span>
+                                            <span ng-if="teacher.stf_picture==''">
+                                                <img class="img-circle mr-3" src="img/teacherlogo.png" width="50" height="50" />
+                                            </span>
+                                            <a href="" ui-sref="TeacherProfile">{{ teacher.stf_name }}</a>
+                                        </td>
+                                        <td>{{ teacher.stf_contact }}</td>
+                                        <td>{{ teacher.stf_address }}</td>
+                                        <td>{{ teacher.prf_title }}</td>
+                                        <td>{{ teacher.stf_qualification }}</td>
+                                        <td>{{ teacher.stf_doj | date:'dd MMMM yyyy' }}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary btn-icon" data-toggle="modal" data-target="#Eidtteacher{{teacher.stf_id}}" ng-click="editModal(teacher)">
+                                                <i class="ti-pencil-alt"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-danger2 btn-icon" data-toggle="modal" data-target="#delete{{teacher.stf_id}}">
+                                                <i class="ti-trash"></i>
+                                            </button>
+                                            
+                                            <!-- Delete Alert -->
+                                            <div class="modal fade bd-example-modal-sm" data-backdrop="static" data-keyboard="false" role="dialog" id="delete{{teacher.stf_id}}">
+                                                <div class="modal-dialog modal-sm">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body">
+                                                            <div class="form-group" align="center">
+                                                                <!-- <img class="mr-3" src="../img/teacherlogo.png" alt="image" width="60" /> -->
+                                                                <span ng-if="teacher.stf_picture!=''"><img class="img-circle mr-3 mb-3" src="{{teacher.stf_picture}}" alt="image" width="120" height="120" /></span>
+                                                                <span ng-if="teacher.stf_picture==''"><img class="img-circle mr-3 mb-3" src="img/teacherlogo.png" alt="image" width="120" height="120" /></span>
+                                                                <h4>Are you Sure?</h4>
+                                                                <p>Do you really want to delete? <br> This process cannot be Undo.</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-danger" data-dismiss="modal"> Cancel</button>
+                                                            <button type="button" class="btn btn-blue" data-dismiss="modal" ng-click="deleteTeacherFunc(teacher.stf_id)"> Delete Staff!</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Delete Alert -->
+                                            <div class="modal fade" id="Eidtteacher{{teacher.stf_id}}" role="dialog">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Update Teacher</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form id="Edit-Class" class="Edit-Class">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                                        <div class="form-group row">
+                                                                            <label class="control-label col-md-3"><b>Full Name</b></label>
+                                                                            <div class="col-md-9">
+                                                                                <input name="firstname" type="text" class="form-control" ng-model="teacher.stf_name" placeholder="Full Name">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label class="control-label col-md-3"><b>Birth Date</b></label>
+                                                                            <div class="col-md-9">
+                                                                                <input name="finish" type="text" class="form-control AddDOB" ng-model="teacher.stf_dob" placeholder="Date of Birth">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label class="control-label col-md-3"><b>Gender</b></label>
+                                                                            <div class="col-md-9">
+                                                                                <select name="gender" class="form-control col-md-10" ng-model="teacher.stf_gender">
+                                                                                    <option value="">Select Gender</option>
+                                                                                    <option value="Male">Male</option>
+                                                                                    <option value="Female">Female</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label class="control-label col-md-3"><b>Contact No</b></label>
+                                                                            <div class="col-md-9">
+                                                                                <input name="mobileno" type="text" class="form-control" ng-model="teacher.stf_contact" placeholder="Mobile No">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label class="control-label col-md-3"><b>Address</b></label>
+                                                                            <div class="col-md-9">
+                                                                                <input name="address" type="text" class="form-control" ng-model="teacher.stf_address" placeholder="Address">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                                        <div class="form-group row">
+                                                                            <label class="control-label col-md-3"><b>Joining Date</b></label>
+                                                                            <div class="col-md-9">
+                                                                                <input name="finish" type="text" class="form-control AddDOB" ng-model="teacher.stf_doj" placeholder="Date of Joining">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label class="control-label col-md-3"><b>Qualification</b></label>
+                                                                            <div class="col-md-9">
+                                                                                <input name="qualification" type="text" class="form-control" ng-model="teacher.stf_qualification" placeholder="Qualification" required>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label class="control-label col-md-3"><b>Proffession</b></label>
+                                                                            <div class="col-md-7">
+                                                                                <select ng-options="item.prf_id as item.prf_title for item in rslt.allProffession" class="form-control"  ng-model="rslt.prf_id">
+                                                                                    <option value="">Select Proffession</option>
+                                                                                </select> 
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label class="control-label col-md-3"><b>Image</b></label>
+                                                                            <div class="col-md-9">
+                                                                                <input name="image" id="image" type="file" class="form-control" file-upload>
+                                                                                <img src="{{teacher.stf_picture}}" width="50" height="50" />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label class="control-label col-md-3"><b>Is Teacher</b></label>
+                                                                            <div class="col-md-9">
+                                                                                <input type="checkbox" ng-model="teacher.isTeacher" ng-true-value="1" ng-false-value="0" ng-checked="teacher.isTeacher==1" class="form-control input" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="ti-close" aria-hidden="true"></i> Close</button>
+                                                            <button type="button" class="btn btn-info" data-dismiss="modal" ng-if="!imgLoader" ng-click="editTeacher(teacher,rslt)"><i class="ti-pencil-alt" aria-hidden="true"></i> Update</button><i class="fa fa-spinner fa-spin fa-2x" ng-if="imgLoader"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div ng-show="loadingdata" style="margin-top: 50px" class="d-flex justify-content-center">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

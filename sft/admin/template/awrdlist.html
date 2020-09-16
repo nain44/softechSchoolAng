@@ -1,0 +1,136 @@
+<div class="row">
+    <div class="col-12 col-xl-12 grid-margin stretch-card">
+        <div class="card overflow-hidden">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-baseline mb-4 mb-md-3">
+                    <h6 class="card-title mb-0">Award List</h6>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <form class="form-inline d-print-none">
+                            <select ng-options="item.cls_title for item in getClasses track by item.cls_id" class="form-control input col-md-2" ng-model="srch.class" ng-change="getallsbjdrp(item.cls_id)">
+                                <option value="" selected="">Select Class</option>
+                            </select>
+                            <select class="form-control input col-md-2" ng-options="item.sub_title for item in dataSbj track by item.sub_id" ng-model="srch.subject">
+                                <option value="">Select Subject</option>
+                            </select>
+                            <select ng-options="item.trm_title for item in allTermArr track by item.trm_id" class="form-control input col-md-2" ng-model="srch.term">
+                                <option value="">Select Term</option>
+                            </select>
+                            <button class="btn btn-blue input" ng-click="awardlist(srch)" href=""><i class="ti-search" aria-hidden="true"></i> Search</button>
+                            <button class="btn btn-danger input" ng-click="clearData()" href=""><i class="ti-brush" aria-hidden="true"></i> Clear</button>
+                            <button class="btn btn-success input" href="" ng-click="exportData()"><i class="ti-import"></i> Excel</button>
+                            <button class="btn btn-dark input d-print-none" ng-click="printD()"><i class="ti-printer" aria-hidden="true"></i> Print</button>
+                            <!-- <button class="btn btn-primary input" ng-click="printD()" href=""><i class="ti-printer" aria-hidden="true"></i> Print</button> -->
+                        </form>
+                        <div id="exportable1">
+                            <div class="tbl-mlmis" ng-show="!loadingdata">
+                                <table class="table table-bordered table-hover rslttbl">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="2" ng-if="getData[0].sec_title=='A'">{{schoolname}}</th>
+                                            <th colspan="2" ng-if="getData[0].sec_title=='B'">{{schoolname}}</th>
+                                            <th colspan="2" ng-if="getData[0].sec_title=='C'">{{schoolname}}</th>
+                                            <th colspan="2" ng-if="getData[0].sec_title=='D'">{{schoolname}}</th>
+                                        </tr>
+                                        <tr>
+                                            <th ng-if="getData[0].sec_title=='A'">Paper: {{srch.subject.sub_title}}</th>
+                                            <th ng-if="getData[0].sec_title=='A'">Class: {{srch.class.cls_title}}</th>
+                                            <th ng-if="getData[0].sec_title=='B'">Paper: {{srch.subject.sub_title}}</th>
+                                            <th ng-if="getData[0].sec_title=='B'">Class: {{srch.class.cls_title}} </th>
+                                            <th ng-if="getData[0].sec_title=='C'">Paper: {{srch.subject.sub_title}}</th>
+                                            <th ng-if="getData[0].sec_title=='C'">Class: {{srch.class.cls_title}} </th>
+                                            <th ng-if="getData[0].sec_title=='D'">Paper: {{srch.subject.sub_title}}</th>
+                                            <th ng-if="getData[0].sec_title=='D'">Class: {{srch.class.cls_title}}</th>
+                                        </tr>                            
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="vertical-align: top;" ng-if="getData[0].sec_title=='A'" colspan="2">
+                                                <table class="table table-bordered table-hover rslttbl">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>R.No</th>
+                                                            <th>Name</th>
+                                                            <th>O.Marks</th>                                
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="secA in getData | filter:{sec_title:'A'}">
+                                                            <td>{{secA.std_admissionNo}}</td>
+                                                            <td>{{secA.std_name}}</td>
+                                                            <td>{{secA.rslt_obtMarks}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td style="vertical-align: top;" ng-if="getData[0].sec_title=='B'" colspan="2">
+                                                <table class="table table-bordered table-hover rslttbl">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>R.No</th>
+                                                            <th>Name</th>
+                                                            <th>O.Marks</th>                                
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="secB in getData | filter:{sec_title:'B'}">
+                                                            <td>{{secB.std_admissionNo}}</td>
+                                                            <td>{{secB.std_name}}</td>
+                                                            <td>{{secB.rslt_obtMarks}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td style="vertical-align: top;" ng-if="getData[0].sec_title=='C'" colspan="2">
+                                                <table class="table table-bordered table-hover rslttbl">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>R.No</th>
+                                                            <th>Name</th>
+                                                            <th>O.Marks</th>                                
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="secC in getData | filter:{sec_title:'C'}">
+                                                            <td>{{secC.std_admissionNo}}</td>
+                                                            <td>{{secC.std_name}}</td>
+                                                            <td>{{secC.rslt_obtMarks}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td style="vertical-align: top;" ng-if="getData[0].sec_title=='D'" colspan="2">
+                                                <table class="table table-bordered table-hover rslttbl">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>R.No</th>
+                                                            <th>Name</th>
+                                                            <th>O.Marks</th>                                
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="secD in getData | filter:{sec_title:'D'}">
+                                                            <td>{{secD.std_admissionNo}}</td>
+                                                            <td>{{secD.std_name}}</td>
+                                                            <td>{{secD.rslt_obtMarks}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div ng-show="loadingdata" style="margin-top: 50px" class="d-flex justify-content-center">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

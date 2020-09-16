@@ -1,0 +1,85 @@
+<div class="row">
+    <div class="col-12 col-xl-12 grid-margin stretch-card">
+        <div class="card overflow-hidden">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-baseline mb-4 mb-md-3">
+                    <h6 class="card-title mb-0"> Indiviual Fee Submission</h6>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <form class="form-inline">                   
+                            <select ng-options="item.cls_title for item in getAllClasses track by item.cls_id" class="form-control input col-md-2" ng-change="getSections(srch.classId.cls_id)" ng-model="srch.classId">
+                                <option value="" selected="">Select Class</option>
+                            </select>
+                            <select ng-options="item.sec_title for item in dataSection track by item.sec_id" class="form-control input col-md-2" ng-model="srch.section">
+                                <option value="" selected=""> Select Section</option>
+                            </select>
+                            <!--<input type="text" class="form-control col-md-2 input" id="datepickerM" name="datepickerM" ng-model="srch.date1"  placeholder="Select Month" autocomplete="off" />
+                            <input type="text" class="form-control col-md-2 input" id="datepickerY" name="datepickerY" ng-model="srch.date2" placeholder="Select Year" autocomplete="off" />-->
+                            <button class="btn btn-info input" ng-click="getAllFees(srch)"><i class="ti-search" aria-hidden="true"></i> Search</button>
+                            <button ng-click="clearData()" class="btn btn-danger input input" href=""><i class="ti-brush"></i> Clear</button>
+                        </form>
+                        <form class="form-inline" style="float: right;">
+                            <input class="form-control input" type="text" name="search" ng-model="searchitem" placeholder="Search Student...">
+                        </form>
+                        <div class="table-responsive tbl-mlmis text-capitalize"  >
+                            <table class="table table-bordered table-hover" id="" cellspacing="0" width="100%">
+                                <thead class="thead-default">
+                                    <tr>
+                                        <th>Reg No</th>
+                                        <th>Name/F-Name</th>                              
+                                        <th>Balance</th>
+                                        <th>Class</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="fee in allFeeArray|filter:searchitem track by fee.std_id">
+                                        <td>{{ fee.std_admissionNo }}</td>
+                                        <td><a href="" ui-sref="StudentProfile">{{ fee.std_name }} / {{ fee.std_fName }}</a></td>                               
+                                        <td>{{ fee.std_balance }}</td>
+                                        <td>
+                                            <span>{{fee.cls_title}} /</span>
+
+                                            <span class="text-danger" ng-if="fee.sec_title=='null' ||fee.sec_title==0 || fee.sec_title=='undefined'">NA</span>
+                                            <span> {{fee.sec_title}}</span>
+                                        </td>
+                                        <td >  
+                                           <div class="col-md-12">
+                                                <form class="form-inline" name="Form"> 
+                                                    <div class="form-group">
+                                                        <input name="Fee" type="text" class="form-control input col-md-4" ng-change="getSpicMonthsFunc(fee.std_id)" ng-model="fee.fee_payable" placeholder="Fee">
+                                                        <!-- <input  type="text" class="form-control input col-md-3 input datepickerEM" ng-model="fee.pwf_month" name="datepickerEM" placeholder="Select Month" />
+                                                        <script>
+                                                            $(".datepickerEM").datepicker({
+                                                                format: "mm",
+                                                                viewMode: "months",
+                                                                minViewMode: "months",
+                                                                autoclose: true,
+                                                            });
+                                                        </script> -->
+                                                        <select  class="form-control input col-md-4" ng-model="fee.pwf_month" ng-click="getSpicMonthsFunc(fee.std_id)">
+                                                            <option value="" selected="">Select Month</option>
+                                                            <option ng-value="mr" ng-repeat="mr in monthArr track by $index">{{mr| monthFilter}}</option>
+                                                        </select>  
+                                                        <!--<select ng-options="item.cls_title for item in getAllClasses track by item.cls_id" class="form-control input col-md-2" ng-model="fee.pwf_month" ng-click="getSpicMonthsFunc(fee.std_id)">
+                                                            <option value="" selected="">Select Month</option>
+                                                        </select>-->                                          
+                                                        <button  type="button" class="btn btn-success-2 input" ng-click="addFee(fee)"><i class="ti-plus" aria-hidden="true"></i> Save Fee</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div ng-show="loadingdata" align="center" style="margin-top: 50px">
+                            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                        </div>                
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

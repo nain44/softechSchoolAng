@@ -1,0 +1,236 @@
+<style>
+    path {
+        fill: transparent;
+    }
+    
+    .circTxt {
+        display: inline-block;
+        font-size: 50px;
+        margin-bottom: 170px;
+        font-weight: 900;
+    }
+</style>
+<div class="row">
+    <div class="col-12 col-xl-12 grid-margin stretch-card" id="printTable" style='margin-top:-8%; margin-bottom:-10%'>
+        <div class="card overflow-hidden">
+            <div class="card-body">
+                <div class="row" style='border:solid 1px; padding-top:5%'>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="row text-capitalize">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-sm-6 text-capitalize">
+                                        <img src="./uploads/image 1.png" width="25%">
+
+                                        <!-- <h4>Reg No: {{sch_regId}}</h4> -->
+                                    </div>
+                                    <div class="col-sm-6 text-capitalize" style='margin-left:77%; margin-top:-6%'>
+                                        <img src="./uploads/image 2.png" width="30%">
+                                        <!-- <h4>Contact No: {{sch_contactNo}}</h4> -->
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm">
+                                    </div>
+                                    <div class="col-sm-10 text-capitalize" align="center">
+                                        <div>
+                                            <div class="circTxt" id="test"></div>
+                                        </div>
+                                        <span ng-if="schoolLogo!='null' && schoolLogo!='undefined' && schoolLogo!=''">
+                                            <img style="margin-top:-10%;margin-bottom: 25px;"
+                                                class="img-circle mr-3" src={{schoolLogo}} width="180" height="180">
+                                        </span>
+                                        <span ng-if="schoolLogo=='null' || schoolLogo=='undefined' || schoolLogo==''">
+                                            <img style="margin-top:-10%;margin-bottom: 25px;"
+                                                class="img-circle mr-3" src="img/logo/education-png-10.png"
+                                                width="180" height="180">
+                                        </span>
+                                        <span>
+                                            <h4
+                                                style="text-transform: uppercase;letter-spacing: 2px; font-weight:900">
+                                                {{ sch_address }}
+                                                <!-- {{ sch_tehsil }} -->
+                                            </h4>
+                                            <h4
+                                                style="text-transform: uppercase;letter-spacing: 2px; font-weight:900">
+                                                Detailed Marks Certificate</h4>
+                                            <h4 style="margin-bottom:2% ; ">Annual Exam 2020
+                                                <!--{{stdSession}}-->
+                                            </h4>
+                                        </span>
+                                    </div>
+                                    <div class="col-sm "></div>
+                                </div>
+                                <div class="row ">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
+                                        <h4>
+                                            NAME : {{stdName}}
+                                        </h4>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
+                                        <h4 style='margin-left:55%'>
+                                            Class : {{clsTitle}}
+                                            <span ng-if="secTitle!='null' && secTitle!=0
+                                                && secTitle!='undefined' "> - {{secTitle}}
+                                            </span>
+                                        </h4>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row ">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
+                                        <h4>
+                                            F.Name: {{stdFName}}
+                                        </h4>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
+                                        <h4 style='margin-left:55%'>
+                                            R.No : {{stdRollNo}}</h4>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row ">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                        <h4>
+                                            Admission No : {{stdAdmissionNo}}
+                                        </h4>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row ">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                        <div class="table-responsive mb-2">
+                                            <table class="table table-bordered table-hover rslttbl ">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            <h4>S.No</h4>
+                                                        </th>
+                                                        <th>
+                                                            <h4>Subjects</h4>
+                                                        </th>
+                                                        <th>
+                                                            <h4>Total Marks</h4>
+                                                        </th>
+                                                        <th>
+                                                            <h4>Obtained Marks</h4>
+                                                        </th>
+                                                        <!-- <th>Percentage</th>
+                                                        <th>Grade</th> -->
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="mrk in dataForMarksArr track by $index">
+                                                        <td>
+                                                            <h4>{{$index+1}}</h4>
+                                                        </td>
+                                                        <td>
+                                                            <h4>{{mrk.sub_title}}</h4>
+                                                        </td>
+                                                        <td>
+                                                            <h4>{{mrk.sub_marks}}</h4>
+                                                        </td>
+                                                        <td>
+                                                            <h4> {{mrk.rslt_obtMarks}}</h4>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <h4>Total Marks </h4>
+                                                        </td>
+                                                        <td>
+                                                            <h4> {{totalMarks}}</h4>
+                                                        </td>
+                                                        <td>
+                                                            <h4>{{obtTotalMarks}}</h4>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 ">
+                                                <h4>Percentage: {{stdPercentage}}%</h4>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 ">
+                                                <h4>Position: {{stdPosition}}
+                                                </h4>
+                                            </div>
+                                            <!-- <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 ">
+                                                <h4>Out of :{{totalStudents}}</h4>
+                                            </div> -->
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 ">
+                                                <h4>Grad :
+                                                    <span ng-if="stdPercentage>=80">
+                                                        <em>A1</em>
+                                                    </span>
+                                                    <span ng-if="stdPercentage>=70 && stdPercentage<79.99">
+                                                        <em>A</em>
+                                                    </span>
+                                                    <span ng-if="stdPercentage>=60 && stdPercentage<69.99">
+                                                        <em>B</em>
+                                                    </span>
+                                                    <span ng-if="stdPercentage>=50 && stdPercentage<59.99 ">
+                                                        <em>C</em>
+                                                    </span>
+                                                    <span ng-if="stdPercentage>=40 && stdPercentage<49.99 ">
+                                                        <em>D</em>
+                                                    </span>
+                                                    <span ng-if="stdPercentage>=33 && stdPercentage<39.99 ">
+                                                        <em>E</em>
+                                                    </span>
+                                                    <span ng-if="stdPercentage<33 ">
+                                                        <em>Try Again</em>
+                                                    </span>
+                                                </h4>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                <h4>
+                                                    Result:
+                                                    <span ng-if="stdPercentage>=33">
+                                                        <em
+                                                            style="text-transform: uppercase;">
+                                                            Passed</em>
+                                                    </span>
+                                                    <span ng-if="stdPercentage<33">
+                                                        <em
+                                                            style="text-transform: uppercase;">
+                                                            Try Again</em>
+                                                    </span>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                <h4>
+                                                    Date of Birth : {{stdDob | date:'dd MMM yyyy'}}
+                                                </h4>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                <!-- <p>Examination Held in : {{examHeldDate | date:'dd MMMM yyyy'}}</p> -->
+                                                <h4>
+                                                    Result Declaration Date : {{'2020-03-19' | date:'dd MMM yyyy'}}
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-sm-12 comnttext">
+                                                <img src="./uploads/sign2.jpg" width="13%" style='margin-left:75%;'>
+                                                <!-- <p>Examination Held in : {{examHeldDate | date:'dd MMMM yyyy'}}</p> -->
+                                                <h4 style='margin-left:75%;'>
+                                                    Principal
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

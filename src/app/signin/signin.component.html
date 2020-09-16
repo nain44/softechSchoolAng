@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="applogin">
+
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Signin</title>
+ 
+</head>
+
+<body>
+    <div class="container register">
+    <div class="row">
+      <div class="col-md-3 register-left">
+        <img src="../../assets/images/education13.png" alt=""/>
+
+        <h3>Welcome</h3>
+        <p>If your School is not Register then click on Sign up</p>
+        <!-- <input type="submit" name="" value="Login"/><br/> -->
+      </div>
+      <div class="col-md-9 register-right">
+        <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Sign In</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Sign Up</a>
+          </li>
+        </ul>
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+              <h3 class="register-heading">Sign In</h3>
+              <form [formGroup]='loginForm' (ngSubmit)=login()>
+                <div class="row register-form">
+                  <div class="col-md-6 offset-md-3">
+                    <span style="color: red" *ngIf="Authmsg && !f.userName.errors">Username and Password does not Match</span>
+
+                    <div class="form-group">
+                      <input type="text" formControlName="userName" [ngClass]="{'is-invalid':submitted && f.userName.errors}" 
+                       class="form-control" placeholder="User Name" required/>
+                      <div style="color: red" *ngIf="submitted && f.userName.errors" class="invalid-feedback">
+                        <div *ngIf='f.userName.errors.required'>Username Required</div></div>
+
+                    </div>
+                    <div class="form-group">
+                      <input type="password" formControlName="password" class="form-control"
+                       [ngClass]= "{'is-invalid':submitted && f.password.errors}"  placeholder="Password" required/>
+                       <div style="color: red" *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                        <div *ngIf='f.password.errors.required'>Password Required</div>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <select  class="form-control" formControlName="session">
+                            <option value="">Select Session</option>
+                            <option value="2019-03-01">2019-20</option>
+                            <option value="2020-03-01">2020-21</option>
+                            <option value="2021-03-01">2021-22</option>
+                            <option value="2022-03-01">20122-23</option>
+                            <option value="2023-03-01">2023-24</option>
+                            <option value="2024-03-01">2024-25</option>
+  
+                        </select>
+                     <!-- <input type="text" name="datepickerY" class="form-control" id="datepickerY" [(ngModel)]="log.sessionY" placeholder="Select Session" autocomplete="off"/>-->
+                    </div>
+                    <div class="form-group" align="center">
+                      <button type="btn" class="btnRegister" >
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                        <span>&nbsp;&nbsp;
+                          <i *ngIf="loading" class="fa fa-spinner fa-pulse fa-lg fa-fw ng-hide"></i>
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="tab-pane fade show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+              <h3  class="register-heading">Sign Up</h3>
+              <form [formGroup]='signupForm' (ngSubmit)="uploadImg()" >
+                <div class="row register-form">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <input  type="text" class="form-control form-control-rounded" formControlName="RegNo" placeholder="Registration No"  
+                      [ngClass]= "{'is-invalid':submitted && s.RegNo.errors}" required/>
+                      <div style="color: red" *ngIf="submitted && s.RegNo.errors" class="invalid-feedback">
+                       <div *ngIf='s.RegNo.errors.required'>RegNo is Required</div>
+                       </div>
+                    </div>
+                    <div class="form-group">
+                      <input name="schcode" type="text" class="form-control form-control-rounded" formControlName="Code" placeholder="School Code">
+                    </div>
+                    <div class="form-group">
+                      <input name="Name" type="text" class="form-control form-control-rounded" formControlName="Name" placeholder="School Name" 
+                      [ngClass]= "{'is-invalid':submitted && s.Name.errors}" required />
+                      <div style="color: red" *ngIf="submitted && s.Name.errors" class="invalid-feedback">
+                       <div *ngIf='s.Name.errors.required'>School Name is Required</div>
+                    </div>
+                    </div>
+                    <div class="form-group">
+                      <input name="Owner" type="text" class="form-control form-control-rounded" formControlName="Owner" placeholder="School's Owner">
+                    </div>
+                    <div class="form-group">
+                      <input name="contactPerson" type="text" class="form-control form-control-rounded" formControlName="Cperson" placeholder="Contact Person">
+                    </div>
+                    <div class="form-group">
+                      <input name="SchContact" type="text" class="form-control form-control-rounded" formControlName="Contact" placeholder="School Contact">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <input name="email" type="text" class="form-control form-control-rounded" formControlName="Email" placeholder="School Email">
+                    </div>
+                    <div class="form-group">
+                      <input name="Address" type="text" class="form-control form-control-rounded" formControlName="Address" placeholder="Address">
+                    </div>
+                    <div class="form-group">
+                      <input name="tehsil" type="text" class="form-control form-control-rounded" formControlName="Tehsil" placeholder="School Tehsil">
+                    </div>
+                    <div class="form-group">
+                      <input name="district" type="text" class="form-control form-control-rounded" formControlName="District" placeholder="School District">
+                    </div>
+                    <div class="form-group">
+                      <select name="class" class="form-control form-control-rounded" formControlName="Level">
+                        <option value="">School Level</option>
+                        <option value="0"> Primary</option>
+                        <option value="1"> Middle</option>
+                        <option value="2"> High</option>
+                        <option value="3"> Higher Secondary</option>
+                        <option value="4"> College</option>
+                    </select>
+                    </div>
+                    <div class="form-group">
+                        <!-- <input name="file" id="file" formControlName="image"  type="file" class="btn btn-sm btn-primary btn-rounded" class="form-control"
+                        (change)="onFileChange($event)">> -->
+                        <input type="file" name="image"  (change)="onFileChange($event)" accept="image/*" />
+                        <img [src]="img" height="100" *ngIf="img" class="images" width="100">                        
+                       </div>
+
+                    <!-- <div *ngIf="error">
+                      {{ error.message }}
+                    </div>
+                    <div *ngIf="uploadResponse.status === 'error'">
+                      {{ uploadResponse.message }}
+                    </div>
+                    <div *ngIf="uploadResponse.status === 'progress'">
+                  
+                  
+                      <div role="progressbar" [style.width.%]="uploadResponse.message" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                        {{uploadResponse.message}}%
+                      </div>
+                  
+                    </div> -->
+
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group" align="center">
+                      <button type="btn" class="btnRegister2">
+                        <i class="fas fa-sign-in-alt"></i> Sign Up
+                        <span>&nbsp;&nbsp;
+                            <i *ngIf="spinner" class="fa fa-spinner fa-pulse fa-lg fa-fw ng-hide"></i>
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

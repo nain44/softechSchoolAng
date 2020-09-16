@@ -1,0 +1,248 @@
+<div class="row">
+    <div class="col-12 col-xl-12 grid-margin stretch-card">
+        <div class="card overflow-hidden">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <h4 class="pb-3">
+                            Classes
+                        </h4>
+                        <form class="form-inline" name="Form">
+                            <input class="form-control input col-md-2" type="text" placeholder="Class Title" ng-model="clss.Title" />
+                            <input class="form-control input col-md-2" name="NoOfStudents" type="text" ng-model="clss.capacity" placeholder="Student Capacity">
+                            <select class="form-control input col-md-2" ng-options="item.stf_id as item.stf_name for item in rs.allTeacherArr" ng-model="rs.stf_id">
+                                <option value="">Select Teacher</option>
+                            </select> 
+                            <button class="form-control input col-md-2" ng-click="selectSubjects()">Add Subjects</button> 
+                            <button class="form-control input col-md-2" ng-click="selectSections()">Add Section</button>   
+                            <button class="btn btn-blue input mb-2" type="button" ng-click="addClass(clss,rs)">
+                                <i class="ti-plus" aria-hidden="true"></i> Add Class
+                            </button>
+                        </form>
+                        <div class="modal fade" id="selectSubjects" role="dialog" style="z-index:1060;">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header btn-info">
+                                        <h6>
+                                            <span>Subjects</span>&nbsp;&nbsp;&nbsp;
+                                        </h6>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="Edit-Class" class="Edit-Class form-inline">
+                                            <table class="table table-bordered table-hover" id="" cellspacing="0">
+                                                <thead class="thead-default">
+                                                    <tr>
+                                                        <th>
+                                                            Select All<br />
+                                                            <input type="checkbox" id="cat1main" ng-change="checkall1()" ng-model="object2.selected1" />
+                                                        </th>
+                                                        <th>Subject</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="text-capitalize" ng-repeat="sbj in dataSbj track by $index">
+                                                        <td>
+                                                            <input type="checkbox" id="check{{sbj.sub_id}}" ng-model="seletedones[sbj.sub_id]" ng-change="selectchecked()" />
+                                                        </td>
+                                                        <td>
+                                                            <span ng-if="sbj.sub_title">{{sbj.sub_title}}</span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer btn-info">
+                                     <button type="button" class="btn btn-primary" data-dismiss="modal">
+                                            Save
+                                        </button>
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="clear()">
+                                            <span> Cancel </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="modal fade progressModalWindow progressModalBackground " id="selectSections" role="dialog" style="z-index:1060;">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header btn-info">
+                                        <h6>
+                                            <span>Choose Sections</span>&nbsp;&nbsp;&nbsp;
+                                        </h6>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="Edit-Class" class="Edit-Class form-inline">
+                                            <table class="table table-bordered table-hover" id="" cellspacing="0">
+                                                <thead class="thead-default">
+                                                    <tr>
+                                                        <th>
+                                                            Select All<br />
+                                                            <input type="checkbox" id="cat1main" ng-change="checkallSec()" ng-model="object2Sec.selected1" />
+                                                        </th>
+                                                        <th>Sections</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="text-capitalize" ng-repeat="sec in dataSection track by $index">
+                                                        <td>
+                                                            <input type="checkbox" id="check{{sec.sec_id}}" ng-model="seletedonesSec[sec.sec_id]" ng-change="selectcheckedSec()" />
+                                                        </td>
+                                                        <td>
+                                                            <span ng-if="sec.sec_title">{{sec.sec_title}}</span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer btn-info">
+                                        <button type="button" class="btn btn-success" data-dismiss="modal">
+                                            Save
+                                        </button>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="clear()">
+                                            <span> Cancel </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Modal 1-->
+                        <div class="table-responsive tbl-mlmis">
+                            
+                            <table class="table table-bordered table-hover">
+                                <thead class="thead-default">
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Class</th>
+                                        <th>Class Teacher</th>
+                                        <th>Total Students</th>                                
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="class in allClassArray">
+                                        <td>{{ $index+1 }}</td>
+                                        <td>{{ class.cls_title }}</td>
+                                        <td>{{ class.stf_name }}</td>
+                                        <td>{{ class.cls_capacity}}</td>
+                                        <td>
+
+                                            <button type="button" class="btn btn-primary btn-icon" data-toggle="modal" data-target="#editClass{{class.cls_id}}" ng-click="editModal(class)">
+                                                <i class="ti-pencil-alt font-18 v-middle"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-danger2 btn-icon" data-toggle="modal" data-target="#delete{{class.cls_id}}">
+                                                <i class="ti-trash"></i>
+                                            </button>
+                                            
+                                            <!-- Delete Alert -->
+                                            <div class="modal fade bd-example-modal-sm" data-backdrop="static" data-keyboard="false" role="dialog" id="delete{{class.cls_id}}">
+                                                <div class="modal-dialog modal-sm">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body">
+                                                            <div class="form-group" align="center">
+                                                                <img src="img/classroom1.png" alt="image" width="240" height="100">
+                                                                <h4 style="margin-top: 20px">Are you Sure?</h4>
+                                                                <p>Do you really want to delete? <br> This process cannot be Undo.</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer ">
+                                                            <button type="button" class="btn btn-danger" data-dismiss="modal"> Cancel</button>
+                                                            <button type="button" class="btn btn-blue" data-dismiss="modal" ng-show="!spinnerD[class.ID]" ng-click="deleteClass(class.cls_id)"> Delete Class! </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Delete Alert -->
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div ng-show="loadingdata" class="d-flex justify-content-center" style="margin-top: 50px">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                            
+                        <!-- Modal -->
+                        <div class="modal fade modalBackground modalWindow" id="editClass{{class.cls_id}}" role="dialog">
+                            <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Update Class</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="Edit-Class" class="Edit-Class">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <div class="form-group row">
+                                                    <label class="control-label col-md-4"><b>Select Class</b></label>
+                                                    <div class="col-md-8">
+                                                        <input class="form-control input" type="text" placeholder="Class Title" ng-model="clssE.eTitle" />
+         
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="control-label col-md-4"><b>Student Capicity</b></label>
+                                                    <div class="col-md-8">
+                                                        <input name="NoOfStudents" type="text" ng-model="clssE.eCapicity" class="form-control" placeholder="Student Capicity">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="control-label col-md-4"><b>Class Teacher</b></label>
+                                                    <div class="col-md-7">
+                                                        <select class="form-control input" ng-options="item.stf_id as item.stf_name for item in rs.allTeacherArr" ng-model="rs.stf_id">
+                                                            <option value="">Select Teacher</option>
+                                                        </select>
+                                                        <!-- <input name="headofClass" type="text" ng-model="clssE.eTeacher" class="form-control col-md-12" placeholder="Class Teacher"> -->
+                                                    </div>
+                                                    </div>
+                                                <div class="form-group row">
+                                                    <label class="control-label col-md-4"><b>Select Section</b></label>
+                                                    <div class="col-md-7">
+                                                        <button class="form-control input" ng-click="selectSections()">Add Section</button>
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                            <label class="control-label col-md-4"><b>Select Subject</b></label>
+                                                            <div class="col-md-7">
+                                                                <button class="form-control input" ng-click="selectSubjects()">Add Subjects</button>
+
+                                                            </div>      
+                                                        </div>
+                                                
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="ti-close" aria-hidden="true"></i> Close</button>
+                                        <button type="button" class="btn btn-info" ng-click="editClass(clssE,rs)" data-dismiss="modal"><i class="ti-pencil-alt" aria-hidden="true"></i> Update</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Modal -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    $(document).on('show.bs.modal', '.modal', function (event) {
+        var zIndex = 1040 + (10 * $('.modal:visible').length);
+        $(this).css('z-index', zIndex);
+        setTimeout(function () {
+            $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+        }, 0);
+    });
+
+    </script>
+</div>

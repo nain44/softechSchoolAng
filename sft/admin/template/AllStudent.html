@@ -1,0 +1,392 @@
+<div class="row">
+    <div class="col-12 col-xl-12 grid-margin stretch-card">
+        <div class="card overflow-hidden">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-baseline mb-4 mb-md-3">
+                    <h6 class="card-title mb-0">Students</h6>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <h4 class="pb-3">
+                            <a href="InsertStudent.xlsx" class="btn btn-success" download="InsertStudent.xlsx">
+                                <i class="ti-import"></i> Download Format
+                            </a>
+                            <span id="wrapper" ng-controller="mCtr">
+                                <span class="text-info" ng-show="spinnerUp"> <i class="fa fa-spinner fa-pulse fa-fw" aria-hidden="true"></i></span>
+                            <span class="overlay" ng-show="!spinnerUp">
+                                    <input type="file" class="btn btn-secondary" name="file" file-upload>
+                                </span>
+                            <span class="progress-bar" role="progressbar" aria-valuenow="{{ uploadProgress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ uploadProgress }}%;">
+                                    {{ uploadProgress == 0 ? '' : uploadProgress + '%' }}
+                                </span>
+                            </span>
+                            <button class="btn btn-blue" data-toggle="collapse" data-target="#addstd" style="float:right; margin-top:-3%">
+                                <i class="ti-plus" aria-hidden="true"></i>Register Student
+                            </button>
+                        </h4>
+                        <div class="collapse" id="addstd">
+                            <form class="form-inline" name="Form">
+                                <input name="addmisionNo" type="text" class="form-control input col-md-2" ng-model="stnd.addmissionNo" placeholder="Addmission No">
+                                <input name="regNo" type="text" class="form-control input col-md-2" ng-model="stnd.regNo" placeholder="Reg No">
+                                <input name="firstname" type="text" class="form-control input col-md-2" ng-model="stnd.name" placeholder="Student Name">
+                                <input name="fname" type="text" class="form-control input col-md-2" ng-model="stnd.fName" placeholder="Father Name">
+                                <input name="fContact" type="text" class="form-control input col-md-2" ng-model="stnd.fContact" placeholder="Father /Gaurdian Contact">
+                                <input type="text" class="form-control input col-md-2" name="fCnic" ng-model="stnd.fCnic" placeholder="Father/Gaurdian CNIC">
+                                <input type="text" class="form-control input col-md-2" name="DOB" id="AddDOB" ng-model="stnd.DOB" placeholder="Date Of Birth" />
+                                <input type="text" class="form-control input col-md-2" name="address" ng-model="stnd.address" placeholder="Address">
+                                <select name="class" class="form-control input col-md-2" ng-model="stnd.relGaurdian">
+                                    <option value="">Select Relation</option>
+                                    <option value="Son">Son</option>
+                                    <option value="Daughter">Daughter</option>
+                                    <option value="Brother">Brother</option>
+                                    <option value="Sister">Sister</option>
+                                    <option value="Nepew">Nepew</option>
+                                    <option value="Niece">Niece</option>
+                                    <option value="Cousin">Cousin</option>
+                                </select>
+                                <select class="form-control input col-md-2" name="gender" ng-model="stnd.gender">
+                                    <option value="">Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                                <select ng-options="item.cls_title for item in getClasses track by item.cls_id" class="form-control input col-md-2" ng-model="stnd.classId" ng-change="getSections(stnd.classId.cls_id)">
+                                    <option value="" selected="">Select Class</option>
+                                </select>
+                                <select ng-options="item.sec_title for item in dataSection track by item.sec_id" class="form-control input col-md-2" ng-model="stnd.section" ng-change="getAllStudentsFunc()">
+                                    <option value="">Select Section</option>
+                                </select>
+                                <input name="regFee" type="text" class="form-control input col-md-2" ng-model="stnd.regFee" placeholder="Admission Fee">
+                                <input name="image" id="image" type="file" class="form-control input col-md-4" file-upload>
+                            </form>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger2" data-toggle="collapse" data-target="#addstd" ng-click="clear()"><i class="ti-close" aria-hidden="true"></i> Cancel</button>
+                                <button type="button" class="btn btn-success" data-toggle="collapse" data-target="#addstd" ng-click="addStudent(stnd)" ng-if="!imgLoader"><i class="ti-plus" aria-hidden="true"></i> Add</button><i class="fa fa-spinner fa-spin fa-2x"
+                                    ng-if="imgLoader"></i>
+                            </div>
+                        </div>
+                        <form class="form-inline">
+                            <select class="form-control input col-md-2" ng-options="item.cls_title for item in getClasses track by item.cls_id" ng-model="stnd.class" ng-change="getSections(stnd.class.cls_id)">
+                                <option value="">Select Class</option>
+                            </select>
+                            <select class="form-control input col-md-2" ng-options="item.sec_title for item in dataSection track by item.sec_id" ng-model="stnd.section" ng-change="getAllStudentsFunc()">
+                                <option value="">Select Section</option>
+                            </select>
+                            <button ng-click="getAllStudents(stnd)" class="btn btn-blue input"><i class="ti-search" aria-hidden="true"></i> Search</button>
+                            <button ng-click="clearData()" class="btn btn-danger2 input" href=""><i class="ti-brush"></i> Clear</button>
+                        </form>
+                        <form class="form-inline input float-right">
+                            <input type="text" name="search" class="form-control" style="margin-top:-20%" placeholder="Search Student" ng-model="Searchstd">
+                        </form>
+                        <div class="table-responsive tbl-mlmis">
+                            <table class="table table-hover" id="">
+                                <thead class="thead-default">
+                                    <tr>
+                                        <th>S.No</th>
+                                        <th>R.No</th>
+                                        <th>Adm No</th>
+                                        <th>Name/F.Name</th>
+
+                                        <th>Contact</th>
+                                        <th>Class</th>
+                                        <!-- <th>Gender</th> -->
+                                        <th>DOB</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="text-capitalize" ng-repeat="stdnt in allStudentArray|filter:Searchstd">
+                                        <td>{{$index+1}}</td>
+                                        <td>{{stdnt.std_rollNo}}</td>
+                                        <td>{{stdnt.std_admissionNo}}</td>
+                                        <td>
+                                            <a href="" ng-click="getProfile(stdnt)">
+                                                <span ng-if="stdnt.std_picture != ''"><img class="img-circle mr-3" src="{{stdnt.std_picture}}" width="50" height="50" /></span>
+                                                <span ng-if="stdnt.std_picture == ''"><img class="img-circle mr-3" src="img/194931.png" alt="image" width="50" height="50" /></span> {{ stdnt.std_name }}
+                                            </a> / {{ stdnt.std_fName}}
+                                        </td>
+
+                                        <td>{{ stdnt.std_fContact }}</td>
+                                        <td>
+
+                                            <span>{{stdnt.cls_title}} -</span>
+
+                                            <span class="text-danger2" ng-if="stdnt.sec_title=='null' ||stdnt.sec_title==0 || stdnt.sec_title=='undefined'">NA</span>
+                                            <span> {{stdnt.sec_title}}</span>
+                                        </td>
+
+                                        <td>{{ stdnt.std_dob | date:'d, MMM yyyy'}}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary btn-icon" data-toggle="modal" data-target="#editModal" ng-click="editModal(stdnt)">
+                                                <i class="ti-pencil-alt"></i>
+                                            </button>
+                                            <!-- <button type="button" class="btn btn-danger2 btn-icon" data-toggle="modal" data-target="#delete{{stdnt.std_id}}">
+                                                <i class="ti-trash"></i>
+                                            </button> -->
+                                            <button type="button" class="btn btn-danger  btn-icon" data-toggle="modal" data-target="#withdrawl" ng-click="editModal(stdnt)">
+                                                <i class="ti-eraser"></i></i>
+                                            </button>
+
+                                            <!-- Delete Alert -->
+                                            <div class="modal fade bd-example-modal-sm" data-backdrop="static" data-keyboard="false" role="dialog" id="delete{{stdnt.std_id}}">
+                                                <div class="modal-dialog modal-sm">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body">
+                                                            <div class="form-group" align="center">
+                                                                <img src="img/images.png">
+                                                                <h4>Are you Sure?</h4>
+                                                                <p>You won't be able to revert this!</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer ">
+                                                            <button type="button" class="btn btn-danger2" data-dismiss="modal"> Cancel</button>
+                                                            <button type="button" class="btn btn-primary-2" data-dismiss="modal" ng-click="deleteStudent(stdnt.std_id)"> Yes, Delete it! </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Delete Alert -->
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Update Modal 2-->
+                        <div class="modal fade bd-example-modal-lg" id="editModal" role="dialog">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Update Student</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="Update-Class" class="Update-Class">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-4"><b>Add No</b></label>
+                                                        <div class="col-md-8">
+                                                            <input name="addmisionNo" type="text" class="form-control" ng-model="estnd.EaddmissionNo" placeholder="Addmission No">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-4"><b>Student Name</b></label>
+                                                        <div class="col-md-8">
+                                                            <input name="firstname" type="text" class="form-control" ng-model="estnd.Ename" placeholder="Student Name">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-4"><b>Father Name</b></label>
+                                                        <div class="col-md-8">
+                                                            <input name="fname" type="text" class="form-control" ng-model="estnd.EfName" placeholder="Father Name">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-4"><b>Father Contact</b></label>
+                                                        <div class="col-md-8">
+                                                            <input name="fContact" type="text" class="form-control" ng-model="estnd.EfContact" placeholder="Father Contact">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-4"><b>Gaurdian Relation</b></label>
+                                                        <div class="col-md-8">
+                                                            <input name="relGaurdian" type="text" class="form-control " ng-model="estnd.ErelGaurdian" placeholder="Gaurdian Relation">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-4"><b>Gaurdian CNIC</b></label>
+                                                        <div class="col-md-8">
+                                                            <input name="fCnic" type="text" class="form-control " ng-model="estnd.EfCnic" placeholder="Father CNIC">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-4"><b>DOB</b></label>
+                                                        <div class="col-md-8">
+                                                            <input type="text" class="form-control " name="startDate" id="EdDOB" ng-model="estnd.EDOB" placeholder="Date Of Birth" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-4"><b>Address</b></label>
+                                                        <div class="col-md-8">
+                                                            <input name="address" type="text" class="form-control" ng-model="estnd.Eaddress" placeholder="Address">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-4"><b>Reg No</b></label>
+                                                        <div class="col-md-8">
+                                                            <input name="regNo" type="text" class="form-control" ng-model="estnd.EregNo" placeholder="Reg No">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-4"><b>Admission Fee</b></label>
+                                                        <div class="col-md-8">
+                                                            <input name="regFee" type="text" class="form-control" ng-model="estnd.EregFee" placeholder="Admission Fee">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-4"><b>Gender</b></label>
+                                                        <div class="col-md-8">
+                                                            <select name="gender" class="form-control col-md-10" ng-model="estnd.Egender">
+                                                                <option value="" selected="">Select Gender</option>
+                                                                <option value="Male">Male</option>
+                                                                <option value="Female">Female</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-4"><b>Student Class</b></label>
+                                                        <div class="col-md-8">
+
+                                                            <select ng-options="item.cls_id as item.cls_title for item in rslt.gClasses" class="form-control col-md-10" ng-model="rslt.cls_id" ng-change="getSectionsEdit(rslt.cls_id)">
+                                                                <option value="">Select Class</option>
+                                                            </select>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-4"><b>Student Section</b></label>
+                                                        <div class="col-md-8">
+                                                            <select ng-options="i.sec_id as  i.sec_title for i in sec.editSection" class="form-control col-md-10" ng-model="sec.sec_id">
+                                                                <option value="">Select Section</option>
+                                                            </select>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-4"><b>Image</b></label>
+                                                        <div class="col-md-8">
+                                                            <input name="image" id="Edimage" type="file" class="form-control" file-upload>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger2" data-dismiss="modal"><i class="ti-close" aria-hidden="true"></i> Close</button>
+                                        <button type="button" class="btn btn-info" data-dismiss="modal" ng-click="editStudent(estnd,sec.sec_id,rslt.cls_id)" ng-if="!imgLoader"><i class="ti-pencil-alt" aria-hidden="true"></i> Update</button><i class="fa fa-spinner fa-spin fa-2x"
+                                            ng-if="imgLoader"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Update modal end-->
+                        <!-- Widrawl modal-->
+                        <div class="modal fade bd-example-modal-lg" id="withdrawl" role="dialog">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Student Withdrawl</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="Update-Class" class="Update-Class">
+                                            <div class="row">
+
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-4"><b>Student Name</b></label>
+                                                        <div class="col-md-8">
+                                                            <input name="firstname" type="text" class="form-control" ng-model="estnd.Ename" placeholder="Student Name" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-4"><b>Add No</b></label>
+                                                        <div class="col-md-8">
+                                                            <input name="addmisionNo" type="text" class="form-control" ng-model="estnd.EaddmissionNo" placeholder="Addmission No" disabled>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-4"><b>Class Enrolled</b></label>
+                                                        <div class="col-md-8">
+                                                            <h1>
+                                                                <input type="text" class="form-control col-md-10" value="{{clsTitle}}" disabled />
+                                                                </h2>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-4"><b>Withdrawl Date</b></label>
+                                                        <div class="col-md-8">
+                                                            <input type="text" class="form-control " name="widthD" id="EWD" ng-blur="getdate(widthd.wDate)" ng-model="widthd.wDate" placeholder="Withdrawl Date" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-4"><b>School</b></label>
+                                                        <div class="col-md-8">
+                                                            <input name="toSchool" type="text" class="form-control" ng-model="widthd.wSchool" placeholder="To School">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-4"><b>Father Name</b></label>
+                                                        <div class="col-md-8">
+                                                            <input name="fname" type="text" class="form-control" ng-model="estnd.EfName" placeholder="Father Name" disabled>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-4"><b>DOB</b></label>
+                                                        <div class="col-md-8">
+                                                            <input type="text" class="form-control" value="{{estnd.EDOB}}" placeholder="Date Of Birth" disabled />
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-4"><b>Class Withdrawl</b></label>
+                                                        <div class="col-md-8">
+
+                                                            <select ng-options="item.cls_id as item.cls_title for item in rslt.gClasses" class="form-control col-md-10" ng-model="rslt.cls_id" ng-change="getSectionsEdit(rslt.cls_id)">
+                                                                                <option value="">Select Class</option>
+                                                                            </select>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-4"><b>Remarks</b></label>
+                                                        <div class="col-md-8">
+                                                            <input name="remarks" type="text" class="form-control" ng-model="widthd.wRemarks" placeholder="Remarks">
+                                                        </div>
+                                                    </div>
+                                                    <!-- <div class="form-group row">
+                                                        <label class="control-label col-md-4"><b>Student Section</b></label>
+                                                        <div class="col-md-8">
+                                                            <select ng-options="i.sec_id as  i.sec_title for i in sec.editSection" class="form-control col-md-10" ng-model="sec.sec_id">
+                                                                <option value="">Select Section</option>
+                                                            </select>
+
+                                                        </div>
+                                                    </div> -->
+
+
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger2" data-dismiss="modal"><i class="ti-close" aria-hidden="true"></i> Close</button>
+                                        <button type="button" class="btn btn-info" data-dismiss="modal" ng-click="withdrawStudentFunc(estnd,rslt.cls_id,widthd)" ng-if="!imgLoader"><i class="ti-pencil-alt" aria-hidden="true"></i>Submit</button><i class="fa fa-spinner fa-spin fa-2x"
+                                            ng-if="imgLoader"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- widrwal modal end-->
+                        <div ng-show="loadingdata" style="margin-top: 50px" class="d-flex justify-content-center">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

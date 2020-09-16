@@ -1,0 +1,160 @@
+<div class="row">
+    <div class="col-12 col-xl-12 grid-margin stretch-card">
+        <div class="card overflow-hidden">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <h4 class="pb-3">Income
+                            <button href="" class="btn btn-primary input d-print-none" data-toggle="collapse" data-target="#AddIncome" style="float:right;">
+                                <i class="ti-plus" aria-hidden="true"></i>Add Income
+                            </button>
+                        </h4>                
+                        <!-- Modal content-->
+                        <div class="collapse" id="AddIncome">             
+                            <div class="modal-body">
+                                <form id="add-Class" class="form-inline">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="form-group">
+                                            <input name="Name" type="text" class="form-control input col-md-2" ng-model="inm.Name" placeholder="Income Name">
+                                            <input name="lastName" type="text" class="form-control input col-md-2" ng-model="inm.Description" placeholder="Income Description">
+                                            <input name="phone" type="text" class="form-control input col-md-2" ng-model="inm.Amount" placeholder="Income Amount">
+                                            <input type="text" class="form-control input col-md-2" id="startdate" name="IncomesDate" ng-model="inm.StDate" placeholder="Income Date" />
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-danger" data-toggle="collapse" data-target="#AddIncome" ng-show="!spinner" ng-click="clear()"><i class="ti-close" aria-hidden="true"></i> Cancel</button>
+                                <button class="btn btn-success" data-toggle="collapse" data-target="#AddIncome" ng-show="!spinner" ng-click="AddIncome(inm)"><i class="ti-plus" aria-hidden="true"></i> Add Income</button>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 d-print-none">
+                            <form class="form-inline">
+                                <input type="text" class="form-control input" id="enddateF" name="IncomeDatef" ng-model="srch.fdate" placeholder="Income Date From" />
+                                <input type="text" class="form-control input" id="enddate" name="IncomeDatet" ng-model="srch.tdate" placeholder="Income Date To" />
+                                <button class="btn btn-blue input" ng-click="GetIncomes(srch)"><i class="ti-search" aria-hidden="true"></i> Search</button>
+                                <button ng-click="clearData()" class="btn btn-danger2 input" href=""><i class="ti-brush"></i> Clear</button>
+                                <button class="btn btn-success input" ng-click="exportData()"><i class="ti-import" aria-hidden="true"></i> Excel</button>
+                                <button class="btn btn-dark input" ng-click="printD()"><i class="ti-printer" aria-hidden="true"></i> Print</button>
+                            </form>
+                        </div>
+
+                        <!-- Inner -->
+                        <div id="exportable" class="table-responsive tbl-mlmis">
+                            <table class="table table-hover" id="" cellspacing="0" width="100%">
+                                <thead class="thead-default">
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Incom Source</th>
+                                        <th>Incom Date</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="items in AllIncomeArray" class="text-capitalize">
+                                        <td>{{ $index+1 }}</td>                               
+                                        <td>{{ items.fStd }}</td>
+                                        <td>{{ items.dateCreated | date : "d MMM y" }} </td>
+                                        <td>{{ items.feeSubmitted }}</td>
+                                          <!--   <td>
+                                                <div class="btn-group btn-air mb-3">
+                                                    <div class="btn btn-info" data-target="#editsub" data-toggle="modal" title="Update" ng-click="editModal(items)"><i class="ti-pencil-alt" aria-hidden="true"></i> Update</div>
+                                                    <div class="btn btn-danger" data-toggle="modal" title="Trash" data-target="#delete{{items.incm_Id}}"><i class="ti-trash" aria-hidden="true"></i> Delete</div>
+                                                </div>
+                                                <button class="btn btn-info" data-target="#editsub" data-toggle="modal" title="Update" ng-click="editModal(items)"><i class="ti-pencil-alt" aria-hidden="true"></i> Update</button>
+                                                <button class="btn btn-danger" data-toggle="modal" title="Trash" data-target="#delete{{items.incm_Id}}"><i class="ti-trash" aria-hidden="true"></i> Delete</button> -->
+                                                <!-- Delete Alert 
+                                                <div class="modal fade bd-example-modal-sm" data-backdrop="static" data-keyboard="false" role="dialog" id="delete{{items.incm_Id}}">
+                                                    <div class="modal-dialog modal-sm">
+                                                        <div class="modal-content">
+                                                            <div class="modal-body">
+                                                                <div class="form-group" align="center">
+                                                                    <img src="img/images.png">
+                                                                    <h4>Are you Sure?</h4>
+                                                                    <p>You won't be able to revert this!</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger" data-dismiss="modal"> Cancel</button>
+                                                                <button type="button" class="btn btn-primary-2" data-dismiss="modal" ng-click="deleteIncom(items.incm_Id)"> Yes, delete it!</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>-->
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3"><b>Total</b></td>
+                                            <td><b>{{totalSum}}</b></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- Inner -->
+
+                            <!-- Edit Modal -->
+                            <div class="modal fade bd-example-modal-lg" id="editsub" role="dialog">
+                                <div class="modal-dialog modal-lg">
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Update Item</h4>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <form id="add-Class" class="form-horizontal">
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                            <div class="form-group row">
+                                                                <label class="control-label col-md-3"><b>Name</b></label>
+                                                                <div class="col-md-9">
+                                                                    <input name="firstName" type="text" class="form-control" ng-model="Einm.EName">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <label class="control-label col-md-3"><b>Description</b></label>
+                                                                <div class="col-md-9">
+                                                                    <input name="lastName" type="text" class="form-control" ng-model="Einm.EDescription">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                            <div class="form-group row">
+                                                                <label class="control-label col-md-3"><b>Amount</b></label>
+                                                                <div class="col-md-9">
+                                                                   <input name="phone" type="text" class="form-control" ng-model="Einm.EAmount">
+                                                               </div>
+                                                           </div>
+                                                           <div class="form-group row">
+                                                            <label class="control-label col-md-3"><b>Date</b></label>
+                                                            <div class="col-md-9">
+                                                                <input name="departmenat" type="text" class="form-control" ng-model="Einm.EDate">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="ti-close" aria-hidden="true"></i> Close</button>
+                                        <button type="button" class="btn btn-info" data-dismiss="modal" ng-click="editIncome(Einm)"><i class="ti-pencil-alt" aria-hidden="true"></i> Update</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Edit Modal -->
+                        <div ng-show="loadingdata" class="d-flex justify-content-center" style="margin-top: 50px">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,231 @@
+<style>
+    path {
+        fill: transparent;
+    }
+    
+    .circTxt {
+        display: inline-block;
+        font-size: 30px;
+        margin-bottom: 150px;
+        font-weight: 800;
+    }
+</style>
+<div class="row">
+    <div class="col-12 col-xl-12 grid-margin stretch-card">
+        <div class="card overflow-hidden">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-baseline mb-4 mb-md-3">
+                    <h6 class="card-title mb-0 d-print-none">Detailed Marks Certificate</h6>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-groupe">
+                            <form class="form-inline d-print-none">
+                                <select ng-options="item.cls_title for item in getClasses track by item.cls_id" class="form-control input col-md-2" ng-model="rslt.classId" ng-change="getSections(rslt)">
+                                    <option value="" selected="">Select Class</option>
+                                </select>
+                                <select ng-options="item.sec_title for item in dataSection track by item.sec_id" class="form-control input col-md-2" ng-model="rslt.section" ng-change="getAllStudentsFunc(rslt)">
+                                    <option value="">Select Section</option>
+                                </select>
+                                <select ng-options="item.trm_title for item in allTermArr track by item.trm_id" class="form-control input col-md-2" ng-model="rslt.term">
+                                    <option value="">Select Term</option>
+                                </select>
+                                <!-- <input type="text" class="form-control input col-md-2" placeholder="Write Student Name" ng-model="studentName" ng-click="complete(studentName)" ng-keydown="complete(studentName)" /> -->
+                                <div class="btn-group input" role="group" aria-label="Basic example">
+                                    <!-- <button type="button" class="btn btn-primary" ng-click="getDataForMarksFunc(rslt.term,rslt,studentName)">
+                                        <span class="btn-label"><i class="ti-support"></i></span>
+                                        Submit
+                                    </button> -->
+                                    <button type="button" class="btn btn-success" ng-click="nextFunc(rslt.term,rslt,0)">
+                                        <i class="ti-control-forward"></i>
+                                        <span ng-show="!loadingBtn">Next</span>
+                                        <span ng-show="loadingBtn">
+                                            <i class="spinner-grow spinner-grow-sm text-warning" role="status"></i>
+                                        </span>
+                                    </button>
+                                    <button type="button" class="btn btn-blue" ng-click="nextFunc(rslt.term,rslt,1)">
+                                        <span class="btn-icon">
+                                            <i class="ti-printer"></i>
+                                            <span ng-show="!loadingBtn">Next & Print</span>
+                                            <span ng-show="loadingBtn">
+                                                <i class="spinner-grow spinner-grow-sm text-warning" role="status"></i>
+                                            </span>
+                                        </span>
+                                    </button>
+                                    <button type="button" class="btn btn-danger2" ng-click="clearData()">
+                                        <i class="ti-brush"></i>Clear
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="row text-capitalize">
+                            <div class="container-fluid">
+                                <div id="printTable">
+                                    <div class="row mb-4">
+                                        <div class="col-sm-6 text-capitalize">
+                                            <h6>Reg No: {{sch_regId}}</h6>
+                                        </div>
+                                        <div class="col-sm-6 text-capitalize">
+                                            <h6 class=" float-right">Contact No: {{sch_contactNo}}</h6>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-4" style="margin-top:50px">
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                            <span ng-if="schoolLogo!='null' && schoolLogo!='undefined' && schoolLogo!=''">
+                                                <img src={{schoolLogo}} width="110" height="110">
+                                            </span>
+                                            <span ng-if="schoolLogo=='null' || schoolLogo=='undefined' || schoolLogo==''">
+                                                <img src="img/logo/education-png-10.png" width="110" height="110">
+                                            </span>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-capitalize" align="center">
+                                            <div>
+                                                <div class="circTxt" id="test"></div>
+                                            </div>
+                                            <!-- <h5>{{sch_title}}, {{sch_address}} </h5>
+                                            <h5> Tehsil: {{sch_tehsil}}, District: {{sch_district}}</h5> -->
+                                            <span>
+                                                <h6 style="text-transform: uppercase;letter-spacing: 2px;">
+                                                    {{ sch_tehsil }}
+                                                </h6>
+                                                <h6 style="text-transform: uppercase;letter-spacing: 2px;">Detailed Marks Certificate</h6>
+                                                <h6 style="margin-bottom:70px;">Annual Exam {{stdSession}}</h6>
+                                            </span>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                            <span ng-if="stdPicture!='undefined' && stdPicture!='' && stdPicture!='null' && stdPicture">
+                                                <img class="float-right" src={{stdPicture}} width="110" height="110">
+                                            </span>
+                                            <span ng-if="stdPicture=='undefined' || stdPicture=='' || stdPicture=='null' || !stdPicture">
+                                                <img class="float-right" src=img/194931.png width="110" height="110">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="rsltinfo mb-4" style="margin-top: 70px">
+                                        <div class="row mb-2">
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                <h6>Student Name :
+                                                    <span class="rsltdata2" style="text-decoration: underline;">{{stdName}}</span>
+                                                </h6>
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                <h6>Father Name :
+                                                    <span class="rsltdata2" style="text-decoration: underline;">{{stdFName}}</span>
+                                                </h6>
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                <h6> Class :
+                                                    <span class="rsltdata2" style="text-decoration: underline;"> {{clsTitle}}  
+                                                        <span ng-if="secTitle!='null' && secTitle!=0 && secTitle!='undefined'"> / {{secTitle}}
+                                                        </span>
+                                                    </span>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                <h6>Date Of Birth :
+                                                    <span class="rsltdata2" style="text-decoration: underline;">{{stdDob}}</span>
+                                                </h6>
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                <h6>Reg No :
+                                                    <span class="rsltdata2" style="text-decoration: underline;">{{stdAdmissionNo}}</span>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="table-responsive mb-4">
+                                                <table class="table table-bordered table-hover rslttbl">
+                                                    <thead id="thd">
+                                                        <tr>
+                                                            <th>S.No</th>
+                                                            <th>Sujects</th>
+                                                            <th>Total Marks</th>
+                                                            <th>Obtain Marks</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="mrk in dataForMarksArr track by $index">
+                                                            <td>{{$index+1}}</td>
+                                                            <td><span>{{mrk.sub_title}}</span></td>
+                                                            <td><span><span>{{mrk.sub_marks}}</span></span>
+                                                            </td>
+                                                            <td><span> {{mrk.rslt_obtMarks}}</span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="2"><b>Total Marks</b></td>
+                                                            <td><b>{{totalMarks}}</b></td>
+                                                            <td><b>{{obtTotalMarks}}</b></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <!-- <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-capitalize">
+                                                    <p class="comnttext">Errors and Omission are subject <br>to subsequent retification</p>
+                                                </div>
+                                            </div> -->
+                                            <div class="row mb-2">
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                    <h6 class="rsltdata2"><em>{{stdPosition}}</em></h6>
+                                                    <h6><b>Position:</b></h6>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                    <h6 class="rsltdata2"><em>{{totalStudents}}</em></h6>
+                                                    <h6><b>Out of :</b></h6>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                    <h6 class="rsltdata2" ng-if="stdPercentage>=85"><em>A1</em></h6>
+                                                    <h6 class="rsltdata2" ng-if="stdPercentage>=75 && stdPercentage<85"><em>A</em></h6>
+                                                    <h6 class="rsltdata2" ng-if="stdPercentage>=65 && stdPercentage<75"><em>B</em></h6>
+                                                    <h6 class="rsltdata2" ng-if="stdPercentage>=50 && stdPercentage<65 "><em>C</em></h6>
+                                                    <h6 class="rsltdata2" ng-if="stdPercentage>=33 && stdPercentage<50 "><em>D</em></h6>
+                                                    <h6 class="rsltdata2" ng-if="stdPercentage<33 "><em>F</em></h6>
+                                                    <h6><b>Grad :</b></h6>
+                                                </div>
+                                                <div class="col-sm-2"></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                    <h6 class="rsltdata2"><em>{{stdPercentage}} %</em></h6>
+                                                    <h6><b>Percentage: </b></h6>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                    <h6 class="rsltdata2" ng-if="stdPercentage>=33"><em class="text-success">Passed</em></h6>
+                                                    <h6 class="rsltdata2" ng-if="stdPercentage<33"><em class="text-danger">Failed</em></h6>
+                                                    <h6><b>Remarks :</b></h6>
+                                                </div>
+                                            </div>
+                                            <hr class="alert-dark">
+                                            <br><br>
+                                            <div class="row">
+                                                <div class="container">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <h6 class="rsltdata2" style="border-top: 1px solid; margin-top: 20px;">
+                                                            Principal<br> {{sch_title}} {{sch_address}}
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 comnttext">
+                                                    <strong>
+                                                        <!-- <p>Examination Held in :<b> {{examHeldDate | date:'dd MMMM yyyy'}}</b></p> -->
+                                                        <p>The Result Declared :<b> {{dateCreatedV | date:'dd MMMM yyyy'}}</b></p>
+                                                    </strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

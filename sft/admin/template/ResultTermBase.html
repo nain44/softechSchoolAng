@@ -1,0 +1,204 @@
+<div class="row">
+  <div class="col-12 col-xl-12 grid-margin stretch-card">
+    <div class="card overflow-hidden">
+      <div class="card-body">
+        
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <h4 class="pb-3">
+              <a href="InsertStudent.xlsx" class="btn btn-success-2" download="addResult.xlsx">
+                <i class="ti-import"></i>
+                Download Format
+              </a>
+              <span id="wrapper" ng-controller="myCtrl">
+                <span class="text-info" ng-show="spinnerUp"> <i class="fa fa-spinner fa-pulse fa-fw" aria-hidden="true"></i></span>
+                <span class="overlay" ng-show="!spinnerUp">
+                  <input type="file" class="btn btn-outline-secondary" name="file" file-upload>
+                </span>
+                <span class="progress-bar" role="progressbar" aria-valuenow="{{ uploadProgress }}" aria-valuemin="0" aria-valuemax="100" style="width:{{uploadProgress}}%;">
+                  {{ uploadProgress == 0 ? '' : uploadProgress + '%' }}
+                </span>
+              </span>
+            </h4>
+            <div class="form-group">
+              <form class="form-inline">
+                <select ng-options="item.cls_title for item in allClassesArr track by item.cls_id" class="form-control  input col-md-2" ng-model="rslt.class" ng-change="getSections(rslt.class.cls_id)">
+                  <option value="">Select Class</option>
+                </select>
+                <select ng-options="item.sec_title for item in secData track by item.sec_id" class="form-control  input col-md-2" ng-model="rslt.section">
+                  <option value="">Select Section</option>
+                </select>
+                <select ng-options="item.trm_title for item in allTermArr track by item.trm_id" class="form-control  input col-md-2" ng-model="rslt.term">
+                  <option value="">Select Term</option>
+                </select>
+                <button ng-click="getAllStudents(rslt)" class="btn btn-primary input"><i class="ti-search"></i> Submit</button>
+                <button ng-click="clearData()" class="btn btn-danger input" href=""><i class="ti-brush"></i> Clear</button>
+              </form>
+              <form class="form-inline input float-right">
+                <input type="text" name="search" class="form-control" style="margin-top:-20%" placeholder="Search Student" ng-model="Searchstd">
+            </form>
+            </div>
+          </div>
+          <div class="table-responsive tbl-mlmis">
+            <table class="table table-hover" id="" cellspacing="0" width="100%">
+              <thead class="thead-default">
+                <tr>
+                  <th>Roll No</th>
+                  <th>Admission No</th>
+                  <th>Name</th>
+                  <th>Class</th>
+                  <th>
+                    <button ng-click="submitResultFunc(rslt)" class="btn btn-warning ">Submit Result</button>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="text-capitalize" ng-repeat="stdnt in allStudentArray| filter:Searchstd">
+                  <td>{{ stdnt.std_rollNo }}</td>
+                  <td>{{ stdnt.std_admissionNo }}</td>
+                  <td><a href="" ui-sref="StudentProfile">{{ stdnt.std_name }} / {{stdnt.std_fName}}</a></td>
+                  <td>
+                    <span> {{stdnt.cls_title}} /</span>
+                    <span class="text-danger" ng-if="stdnt.sec_title=='null' ||stdnt.sec_title==0 || stdnt.sec_title=='undefined'">NA</span>
+                    <span> {{stdnt.sec_title}} </span>
+                  </td>
+                  <td>
+                      <button type="button" ng-class="{'btn btn-info':stdnt.resultAdded==0 || !stdnt.resultAdded,'btn btn-primary':stdnt.resultAdded==1}" data-toggle="modal" ng-click="getResult(stdnt,rslt.term)">
+                          <i class="ti-pluse" aria-hidden="true"></i>
+                          <span ng-if="stdnt.resultAdded==0 || !stdnt.resultAdded"> Add Result
+                          </span>
+                          <span ng-if="stdnt.resultAdded==1">
+                              <i class="ti-pluse" aria-hidden="true"></i> Update Result
+                            </span>
+                          </button>
+                          <button type="button" ng-if="stdnt.isSubmited==1" ng-class="{'btn btn-info':stdnt.resultAdded==0 || !stdnt.resultAdded,'btn btn-primary':stdnt.resultAdded==1}" data-toggle="modal" ng-click="getResultStatus(stdnt,rslt.term)">
+                              <i class="ti-pluse" aria-hidden="true"></i>
+                              
+                              </span>
+                              <span>
+                                  <i class="ti-pluse" aria-hidden="true"></i> Update Position
+                                </span>
+                              </button>
+                    <button type="button" class="btn btn-success " ng-click="getDMC(rslt,stdnt,0)" ng-if="stdnt.isSubmited==1"><i class="ti-printer" aria-hidden="true"></i> View</button>
+                    <button type="button" class="btn btn-success " ng-click="getDMC(rslt,stdnt,1)" ng-if="stdnt.isSubmited==1"><i class="ti-printer" aria-hidden="true"></i> Print</button>
+
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- Update Modal -->
+            <div class="modal fade" id="addResult" role="dialog">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-header btn-info">
+                      <h6>
+                        <span><b>Admission No </b>: {{admiNo}}</span>&nbsp;&nbsp;&nbsp;
+                        <span><b>Name</b>: {{studentName}} <b>S/D/O </b>{{fatherName}}</span>
+                      </h6>
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                      <div id="myTabContent" class="tab-content custom-product-edit">
+                        <div class="row">
+                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="review-content-section">
+                              <form id="Edit-Class" class="Edit-Class form-inline">
+                                <table class="table table-bordered table-hover" id="" cellspacing="0">
+                                  <thead class="thead-default">
+                                    <tr>
+                                      <th>Subject</th>
+                                      <th>Total Marks</th>
+                                      <th>Obtained Marks</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr class="text-capitalize" ng-repeat="mrk in dataForMarksArr track by $index">
+                                      <td> {{mrk.sub_title}} </td>
+                                      <td>
+                                        <input type="text" ng-model="mrk.sub_marks" class="form-control  ">
+                                      </td>
+                                     
+                                      <td>
+                                        <input type="text" ng-model="mrk.rslt_obtMarks" class="form-control " tabindex="1" ng-blur="addOM(mrk,rslt.term)"><br />
+                                        <span ng-show="errorShowM[mrk.sub_id]" style="color:red">Obtained Marks cannot be greater than total marks.</span>
+                                      </td>
+                                      </tr>
+                                  </tbody>
+                                </table>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer btn-info">
+                      <!--<button type="button" class="btn btn-sm btn-danger " data-dismiss="modal"><i class="ti-close" aria-hidden="true"></i> Close</button>
+                      <button type="button" class="btn btn-sm btn-primary " data-dismiss="modal" ng-click="editTeacher(tchr)"><i class="ti-pencil-alt" aria-hidden="true"></i> Update</button>-->
+                      <button type="button" class="btn btn-primary " ng-click="addResult()" ng-disabled="errorShow"> Save </button>
+                      <button type="button" class="btn btn-primary " data-dismiss="modal" ng-click="clear()"> Cancel </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Update Modal -->
+          </div>
+            <!-- Update Modal -->
+            <div class="modal fade" id="updateStatus" role="dialog">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-header btn-info">
+                      <h6>
+                        <span><b>Admission No </b>: {{admiNo}}</span>&nbsp;&nbsp;&nbsp;
+                        <span><b>Name</b>: {{studentName}} <b>S/D/O </b>{{fatherName}}</span>
+                      </h6>
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                      <div id="myTabContent" class="tab-content custom-product-edit">
+                        <div class="row">
+                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="review-content-section">
+                              <form id="Edit-Class" class="Edit-Class form-inline">
+                                <table class="table table-bordered table-hover" id="" cellspacing="0">
+                                  <thead class="thead-default">
+                                    <tr>
+                                      <th>Position</th>
+                                      <th>Grade</th>
+                                      <th>Percentage</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                   
+                                      <tr><td colspan="2">Position</td>
+                                        <td> <input type="text" ng-model="pos.position" class="form-control" >
+                                        </td>
+                                    </tr>
+                                    
+                                  </tbody>
+                                </table>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer btn-info">
+                      <!--<button type="button" class="btn btn-sm btn-danger " data-dismiss="modal"><i class="ti-close" aria-hidden="true"></i> Close</button>
+                      <button type="button" class="btn btn-sm btn-primary " data-dismiss="modal" ng-click="editTeacher(tchr)"><i class="ti-pencil-alt" aria-hidden="true"></i> Update</button>-->
+                      <button type="button" class="btn btn-primary " ng-click="upos(stdId,pos)"> Save </button>
+                      <button type="button" class="btn btn-primary " data-dismiss="modal" ng-click="clear()"> Cancel </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Update Modal -->
+          <div ng-show="loadingdata" style="margin-top: 50px" class="d-flex justify-content-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>  
+        </div>   
+      </div>
+    </div>
+  </div>
+</div>

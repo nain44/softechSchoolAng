@@ -1,0 +1,104 @@
+<div class="row">
+    <div class="col-12 col-xl-12 grid-margin stretch-card">
+        <div class="card overflow-hidden">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-baseline mb-4 mb-md-3">
+                    <h6 class="card-title mb-0">Send Sms</h6>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <form class="form-inline">
+                            <!-- <select ng-options="item.cls_title for item in getAllClasses track by item.cls_id" class="form-control input col-md-2" ng-model="srch.classId" ng-change="getAllStudentsContactsFunc(srch.classId.cls_id)">
+                                <option value="" selected="">Select Class</option>
+                            </select> -->
+                            <select ng-options="item.cls_title for item in getAllClasses track by item.cls_id" class="form-control input col-md-2" ng-change="getSections(srch.classId.cls_id)" ng-model="srch.classId">
+                                <option value="" selected="">Select Class</option>
+                            </select>
+                            <select ng-options="item.sec_title for item in dataSection track by item.sec_id" class="form-control input col-md-2" ng-model="srch.section"ng-change="getAllStudentsContactsFunc(srch.classId.cls_id)" >
+                                <option value="" selected=""> Select Section</option>
+                            </select>
+                            <button class="form-control input col-md-2" ng-click="selectSubjects()">Select Student(s)</button> 
+                            <button class="btn btn-danger input mb-2" ng-click="clearData()" href=""><i class="ti-brush"></i> Clear</button>
+                        </form>
+                        <div class="tbl-mlmis text-capitalize">
+                            <textarea ng-model="sms.smsContent" id="smsC" rows="6" cols="70" >
+
+                            </textarea><br>
+                            <button class="btn btn-blue input mb-2" ng-click="sendSmsFunc(sms)"><i class="text-primary" aria-hidden="true"></i> Send</button>
+                            <button class="btn btn-danger input mb-2" ng-click="clearData()" href=""><i class="ti-brush"></i> Clear</button>
+
+                        </div>
+                        <div ng-show="loadingdata" style="margin-top: 50px" class="d-flex justify-content-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="sr-only">Loading...</span>
+                             </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="selectSubjects" role="dialog" style="z-index:1060;">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header btn-info">
+                                    <h6>
+                                        <span>Students</span>&nbsp;&nbsp;&nbsp;
+                                    </h6>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                
+                                <div class="modal-body">
+                                      <form class="form-inline input">
+                                        </form>
+                                        <div class="modal-footer btn-info">
+                                            <input type="text" name="search" class="form-control"  placeholder="Search Student" ng-model="Searchstd">
+
+                                            <button type="button" class="btn btn-primary" data-dismiss="modal">
+                                                   Save
+                                               </button>
+                                               <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="clear()">
+                                                   <span> Cancel </span>
+                                               </button>
+                                           </div>
+                                    <form id="Edit-Class" class="Edit-Class form-inline">
+                                      
+                                           <table class="table table-bordered table-hover" id="" cellspacing="0">
+                                            <thead class="thead-default">
+                                                <tr>
+                                                    <th>
+                                                        Select All<br />
+                                                        <input type="checkbox" id="cat1main" ng-change="checkall1()" ng-model="object2.selected1" />
+                                                    </th>
+                                                    <th>Students</th> 
+                                                    <th>Class</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="text-capitalize" ng-repeat="std in dataStd| filter:Searchstd">
+                                                    <td>
+                                                        <input type="checkbox" id="check{{std.std_id}}" ng-model="seletedones[std.std_id]" ng-change="selectchecked()" />
+                                                    </td>
+                                                    <td>
+                                                        <span ng-if="std.std_name   ">{{std.std_name}} / {{std.std_fName}}</span>
+                                                    </td><td>
+                                                        <span ng-if="std.cls_title   ">{{std.cls_title}}</span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </form>
+                                </div>
+                                <div class="modal-footer btn-info">
+                                 <button type="button" class="btn btn-primary" data-dismiss="modal">
+                                        Save
+                                    </button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="clear()">
+                                        <span> Cancel </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

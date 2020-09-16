@@ -1,0 +1,201 @@
+<style>
+
+    .dropdownResultCard {
+        overflow: hidden; z-index: 999; position: fixed;
+        margin: 0px;
+        background: #fff;
+        padding: 5px;
+        cursor: pointer;
+        border-bottom:0.5px solid #ccc;
+        border-right:0.5px solid #ccc;
+        border-left:0.5px solid #ccc
+    }
+   
+    .dropdownResultCard li:hover{background:#c2d1ec}
+    .dropdownResultCard li{border-bottom:0.5px dotted #ccc}
+    
+   
+</style>
+<div class="ibox">
+    <div class="ibox-body">
+        <div class="col-md-12">
+            <div class="form-group d-print-none" >
+                <form class="form-inline">
+                        <select ng-options="item for item in rslt.AllClasses" class="form-control form-control-rounded input col-md-2" ng-model="rslt.classStd" ng-change="getAllStudentsFunc(rslt)">
+                            <option value="">Select Class</option>
+
+                        </select>
+                        <select ng-options="item for item in rslt.secData" class="form-control form-control-rounded input col-md-2" ng-model="rslt.sectionStd" ng-change="getAllStudentsFunc(rslt)">
+                        <option value="">Select Section</option>
+                    </select>                    
+                        <select class="form-control form-control-rounded input col-md-2" ng-model="rslt.term" required >
+                            <option value="">Select Term</option>
+                            <option value="1">1st Term</option>
+                            <option value="2">2nd Term</option>
+                            <option value="3">Final Term</option>
+                        </select>
+                        <button ng-click="complete(rslt.term,rslt)" class="btn btn-outline-info btn-rounded">Submit</button>
+                        <button ng-click="clearData()" class="btn btn-outline-danger btn-rounded input" href=""><i class="ti-brush"></i> Clear</button>
+                        
+                        
+                    </form>
+            </div>
+            <div id="printTable">
+                <div class="row">                    
+                    <div class="col-sm-3" id="logo">
+                        <span ng-if="schoolLogo!='null' && schoolLogo!='undefined' && schoolLogo!=''"> 
+                        <img src={{schoolLogo}}>
+                        </span>
+                        <span ng-if="schoolLogo=='null' || schoolLogo=='undefined' || schoolLogo==''"> 
+                        <img src="../img/logo/logo-school-hi.png">
+                        </span>                        
+                    </div>
+                   
+                    <div class="col-sm-6 text-capitalize" align="center">
+                        <h6>{{sch_title}}</h6>
+                        <h6>{{sch_district}}</h6>
+                      
+                        <span>{{stdSession}}</span>
+                        <h6>Details Marks Certificate</h6><br><br>
+                    </div>
+                    <div class="col-sm-3" id="stdimg">
+                        <span ng-if="stdPicture!='undefined' && stdPicture!='' && stdPicture!='null'"> <img src={{stdPicture}}></span>
+                        <span ng-if="stdPicture=='undefined' || stdPicture=='' || stdPicture=='null'"> <img src=../img/dummyStudent.png></span>
+                    </div>
+                </div>
+                <div id="rsltinfo">  
+                    <div class="row">
+                        <div class="col-sm-4">
+                            
+                            <h6>Name : {{stdName}}</h6>
+                        </div>
+                        <div class="col-sm-4">                           
+                            <h6>Class :<i ng-if="stdClass==-2">Play Group</i>
+                                <i ng-if="stdClass==-1">Nursary</i>
+                                <i ng-if="stdClass==0">KG</i>
+                                <i ng-if="stdClass==1">1<sup>st</sup></i>
+                                <i ng-if="stdClass==2">2<sup>nd</sup></i>
+                                <i ng-if="stdClass==3">3<sup>rd</sup></i>
+                                <i ng-if="stdClass==4">4<sup>th</sup></i>
+                                <i ng-if="stdClass==5">5<sup>th</sup></i>
+                                <i ng-if="stdClass==6">6<sup>th</sup></i>
+                                <i ng-if="stdClass==7">7<sup>th</sup></i>
+                                <i ng-if="stdClass==8">8<sup>th</sup></i>
+                                <i ng-if="stdClass==9">9<sup>th</sup></i>
+                                <i ng-if="stdClass==10">10<sup>th</sup></i>
+                                <i ng-if="stdClass>10" class="text-success">Promted beyond 10<sup>th</sup></i>
+                                <i class="text-capitalize" ng-if="stdClass<=10">
+                                    <i class="text" ng-if="stdSection!='null' && stdSection!=0 && stdSection!='undefined'">/</i> 
+                                    <i class="text-danger" ng-if="stdSection=='null' ||stdSection==0 || stdSection=='undefined'"></i> 
+                                        <i class="text-success" ng-if="stdSection==1">A</i>
+                                        <i class="text-success" ng-if="stdSection==2">B</i>
+                                        <i class="text-success" ng-if="stdSection==3">C</i>
+                                        <i class="text-success" ng-if="stdSection==4">D</i>
+                                    </i>
+                                </i> </h6>
+                        </div>
+                        <div class="col-sm-4">
+                           
+                            <h6>Roll No :{{stdRollNo}}</h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <h6>F/Name : {{stdFName}}</h6>
+                        </div>
+                        <div class="col-sm-4">
+                            <h6>Date Of Birth : {{stdDob}}</h6>
+                        </div>
+                        <div class="col-sm-4">
+                            <h6>Adm. No : {{stdAdmissionNo}}</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                       
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover rslttbl">
+                                <thead id="thd">
+                                    <tr>
+                                        <th>S.No</th>
+                                        <th>Sujects</th>
+                                        <th>Total Marks</th>                                       
+                                        <th>Obtain Marks</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="mrk in dataForMarksArr track by $index">
+                                        <td>{{$index+1}}</td>
+                                        <td><span>{{mrk.sub_title}}</span></td>
+                                        <td><span><span>{{mrk.sub_marks}}</span></span></td>
+                                        <td><span> {{mrk.rslt_obtMarks}}</span></td>
+                                      
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td colspan="2"><b>Total Marks</b></td>
+                                        <td><b>{{totalMarks}}</b></td>
+                                        <td><b>{{obtTotalMarks}}</b></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 text-capitalize">
+                                <p class="comnttext">Errors and Omission are subject <br>to subsequent retification</p>
+                            </div>
+                        </div>
+                        <!-- <div ng-show="loadingdata" align="center">
+                            <div class="fa fa-pulse fa-spinner fa-3x fa-fw"></div>
+                        </div> -->
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <h6 class="rsltdata2"><em>{{stdPosition}}</em></h6>
+                                <h6><b>Position:</b></h6>
+                            </div>
+                            <div class="col-sm-4">
+                                <h6 class="rsltdata2"><em>{{totalStudents}}</em></h6>
+                                <h6><b>Out of :</b></h6>
+                            </div>
+                            <div class="col-sm-4">
+                                <h6 class="rsltdata2" ng-if="stdPercentage>=85"><em>A1</em></h6>
+                                <h6 class="rsltdata2" ng-if="stdPercentage>=75 && stdPercentage<85"><em>A</em></h6>
+                                <h6 class="rsltdata2" ng-if="stdPercentage>=65 && stdPercentage<75"><em>B</em></h6>
+                                <h6 class="rsltdata2" ng-if="stdPercentage>=50 && stdPercentage<65 "><em>C</em></h6>
+                                <h6><b>Grad :</b></h6>
+                            </div></div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <h6 class="rsltdata2"><em>{{stdPercentage}} %</em></h6>
+                                <h6><b>Percentage: </b></h6>
+                            </div>
+                            <div class="col-sm-4"></div>
+                            <div class="col-sm-4">
+                                <h6 class="rsltdata2" ng-if="stdPercentage>=33"><em class="text-success">Passed</em></h6>
+                                <h6 class="rsltdata2" ng-if="stdPercentage<33"><em class="text-danger">Failed</em></h6>
+                                <h6><b>Remarks :</b></h6>
+                            </div>
+                        </div>
+                        <hr class="alert-dark">
+                        <br><br>
+                        <div class="row">
+                            <div class="container">
+                                <div class="col-sm-12">
+                                    <h6 class="rsltdata2">Headmaster<br>
+                                    {{sch_title}}   &nbsp;&nbsp;&nbsp;{{sch_district}}                                 </h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-5 comnttext">
+                                <p>Examination Held in {{dateCreated}}</p>
+                                <p>The Result Declared {{dateModified}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

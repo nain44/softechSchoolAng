@@ -1,0 +1,126 @@
+<div class="row">
+    <div class="col-12 col-xl-12 grid-margin stretch-card">
+        <div class="card overflow-hidden">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <h4 class="pb-3">
+                            Session
+                        </h4>
+                        <form class="form-inline" name="Form">                           
+                            <input type="text" placeholder="Term Title" class="form-control input col-md-2" ng-model="clss.Title" />
+                            <input type="text" class="form-control col-md-2 input" id="datepickerY" name="datepickerY" ng-model="clss.heldDate" placeholder="Select Date" autocomplete="off" />
+                            <input name="desc" type="text" ng-model="clss.description" class="form-control input col-md-2" placeholder="Descriptions">
+                             
+                            <button type="button" class="btn btn-blue input" ng-click="addClass(clss)">
+                                <i class="ti-plus" aria-hidden="true"></i> Add Session
+                            </button>
+                        </form>
+                       <!-- Modal 1-->
+                        <div class="table-responsive tbl-mlmis">
+                        
+                            <table class="table table-bordered table-hover">
+                                <thead class="thead-default">
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Session Duration</th>
+                                        <th>Duration</th>
+                                        <th>Description</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="ses in allSession">
+                                        <td>{{ $index+1 }}</td>
+                                        <td>{{ class.ses_title }}</td>
+                                        <td>{{ class.ses_heldDate | date:'MMMM dd, yyyy'}}</td>
+
+                                        <td>{{ ses.ses_description}}</td>
+                                        <td>
+                                            <button class="btn btn-info btn-animated from-top" data-target="#editClass{{ses.ses_id}}" data-toggle="modal" ng-click="editModal(ses)">
+                                                <span class="visible-content"><i class="ti-pencil-alt font-18 v-middle"></i></span>
+                                                <span class="hidden-content">Edit</span>
+                                            </button>
+                                            <button class="btn btn-danger btn-animated from-top" data-toggle="modal" data-target="#delete{{ses.ses_id}}">
+                                                <span class="visible-content"><i class="ti-trash font-18 v-middle"></i></span>
+                                                <span class="hidden-content" style="font-size:12px">Delete</span>
+                                            </button>
+                                            
+                                            <!-- Delete Alert -->
+                                            <div class="modal fade bd-example-modal-sm" data-backdrop="static" data-keyboard="false" role="dialog" id="delete{{ses.ses_id}}">
+                                                <div class="modal-dialog modal-sm">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body">
+                                                            <div class="form-group" align="center">
+                                                                <img src="img/classroom1.png" alt="image" width="240" height="100">
+                                                                <h4 style="margin-top: 20px">Are you Sure?</h4>
+                                                                <p>Do you really want to delete? <br> This process cannot be Undo.</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer ">
+                                                            <button type="button" class="btn btn-danger" data-dismiss="modal"> Cancel</button>
+                                                            <button type="button" class="btn btn-blue" data-dismiss="modal"  ng-click="deleteClass(ses.ses_id)"> Delete Class! </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Delete Alert -->
+                                            <!-- Modal -->
+                                            <div class="modal fade modalBackground modalWindow" id="editClass{{ses.ses_id}}" role="dialog">
+                                                <div class="modal-dialog">
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Update Term</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form id="Edit-Class" class="Edit-Class">
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                    <div class="form-group row">
+                                                                        <label class="control-label col-md-4"><b>Title</b></label>
+                                                                        <div class="col-md-8">
+                                                                            <input class="form-control input" type="text" placeholder="Session Title" ng-model="ses.ses_title" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        <label class="control-label col-md-4"><b>Date</b></label>
+                                                                        <div class="col-md-8">
+                                                                            <input type="text" ng-model="ses.ses_heldDate" class="form-control" placeholder="Date">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        <label class="control-label col-md-4"><b>Description</b></label>
+                                                                        <div class="col-md-8">
+                                                                            <input type="text" ng-model="ses.ses_description" class="form-control" placeholder="Description">
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="ti-close" aria-hidden="true"></i> Close</button>
+                                                            <button type="button" class="btn btn-info" ng-click="editClass(ses,rs)" data-dismiss="modal"><i class="ti-pencil-alt" aria-hidden="true"></i> Update</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Modal -->
+                                        </td>
+                                       
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div ng-show="loadingdata" style="margin-top: 50px" class="d-flex justify-content-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </div>
+</div>

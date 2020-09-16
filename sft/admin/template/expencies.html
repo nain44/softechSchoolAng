@@ -1,0 +1,191 @@
+<div class="row">
+    <div class="col-12 col-xl-12 grid-margin stretch-card">
+        <div class="card overflow-hidden">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <h4 class="pb-3">
+                            Expenses                            
+                            <button class="btn btn-dark input d-print-none" ng-click="printD()" style="float:right;"><i class="ti-printer" aria-hidden="true"></i> Print</button>
+                            <!-- <button href="" class="btn btn-primary input d-print-none" ng-click="exportData()" style="float:right;">
+                                <i class="ti-import" aria-hidden="true"></i> Excel
+                            </button> -->
+                            <button href="" class="btn btn-blue input d-print-none" data-toggle="collapse" data-target="#AddExpenses" style="float:right;">
+                                <i class="ti-plus" aria-hidden="true"></i>Add Expenses
+                            </button>
+                        </h4>
+                        <!-- Modal content-->
+                        <div class="collapse d-print-none" id="AddExpenses">
+                            <form class="form-inline">
+                                <div class="form-group">
+                                    <input name="Name" type="text" class="form-control input col-md-2" ng-model="itm.IName" placeholder="Item Name">
+                                    <input name="lastName" type="text" class="form-control input col-md-2" ng-model="itm.Description" placeholder="Item Description">
+                                    <input name="phone" type="text" class="form-control input col-md-2" ng-model="itm.Quantity" placeholder="Item Quantity">
+                                    <input name="departmenat" type="text" class="form-control input col-md-2" ng-model="itm.Price" placeholder="Item Price">
+                                    <input name="subdepartment" type="text" class="form-control input col-md-2" ng-model="itm.Total" placeholder="Total Price">
+                                    <input name="ExpenseDate" type="text" class="form-control input col-md-2" id="addexpdate" ng-model="itm.StDate" placeholder="Expense Date" />
+                                </div>
+                            </form>
+                            <!-- <hr class="alert-info"/>
+                            <div class="row container">
+                                <div class="col-sm-2"><b>Name</b></div>
+                                <div class="col-sm-2"><b>Description</b></div>
+                                <div class="col-sm-2"><b>Quantity</b></div>
+                                <div class="col-sm-2"><b>Item Price</b></div>
+                                <div class="col-sm-2"><b>Total Price</b></div>
+                                <div class="col-sm-2"><b>Remove Item</b></div>
+                            </div>
+                            <hr class="alert-primary"/>
+                            <div class="row" ng-repeat="quest in selecteditem">
+                                <div class="col-sm-2">{{quest.Name}}</div>
+                                <div class="col-sm-2">{{quest.Description}}</div>
+                                <div class="col-sm-2">{{quest.Quantity}}</div>
+                                <div class="col-sm-2">{{quest.Price}}</div>
+                                <div class="col-sm-2">{{quest.Total}}</div>
+                                <div class="col-sm-2">
+                                    <a href="" class="text-danger" name="question" ng-click="removefromArr($index)"><span><i class="fa fa-times"></i></span></a>
+                                </div>
+                            </div> -->
+                            <div class="modal-footer">
+                                <button class="btn btn-danger" data-toggle="collapse" data-target="#AddExpenses" ng-show="!spinner" ng-click="clear()">Cancel</button>
+                                <button class="btn btn-success" data-toggle="collapse" data-target="#AddExpenses" ng-show="!spinner" ng-click="InsertExpenses(itm)">Add Expenses</button>
+                            </div>
+                        </div>
+                        <form class="form-inline d-print-none">
+                            <input type="text" class="form-control input" id="expencedate" name="ExpDate" ng-model="item.date" placeholder="Expenses Date" />
+                            <button ng-click="GetExpencies(item)" class="btn btn-primary input"><i class="ti-search" aria-hidden="true"></i> Search</button>
+                        </form>
+                        <form class="form-inline float-right input d-print-none">
+                            <input type="text" name="search" class="form-control" placeholder="Search Expense" ng-model="SearchMed">
+                        </form>
+                        <!-- Inner -->
+                        <div id="exportable" class="tbl-mlmis">
+                            <table class="table table-hover" cellspacing="0" width="100%">
+                                <thead class="thead-default">
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Item Name</th>
+                                        <th>Item Description</th>
+                                        <th>Item Quantity</th>
+                                        <th>Item Price</th>
+                                        <th>Total Price</th>
+                                        <th class="d-print-none"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="items in allExpenciesArray|filter:SearchMed">
+                                        <td>{{ $index+1 }}</td>
+                                        <td>{{ items.exp_itemName }}</td>
+                                        <td>{{ items.exp_description }}</td>
+                                        <td>{{ items.exp_quantity }}</td>
+                                        <td>{{ items.exp_itemPrice }}</td>
+                                        <td>{{ items.exp_totalPrice }}</td>
+                                        <td class="d-print-none">
+                                            <button type="button" class="btn btn-primary btn-icon"data-target="#editsub" data-toggle="modal" ng-click="editModal(items)">
+                                                <i class="ti-pencil-alt"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-danger2 btn-icon" data-toggle="modal" data-target="#delete{{items.exp_id}}">
+                                                <i class="ti-trash"></i>
+                                            </button>
+                                             
+                                            <div class="modal fade bd-example-modal-sm" data-backdrop="static" data-keyboard="false" role="dialog" id="delete{{items.exp_id}}">
+                                                <div class="modal-dialog modal-sm">
+                                                    <div class="modal-content">
+
+                                                        <div class="modal-body">
+                                                            <div class="form-group" align="center">
+                                                                <img src="img/expense.png" width="120" height="120">
+                                                                <h4 style="margin-top: 20px">Are you Sure?</h4>
+                                                                <p>Do you really want to delete? <br> This process cannot be Undo.</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-danger" data-dismiss="modal"> Cancel</button>
+                                                            <button type="button" class="btn btn-blue" data-dismiss="modal" ng-click="deleteExpenses(items.exp_id)"> Delete Expense!</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Delete Alert -->
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Inner -->
+                        <!-- Edit Modal -->
+                        <div class="modal fade bd-example-modal-lg" id="editsub" role="dialog">
+                            <div class="modal-dialog modal-lg">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Update Item</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <form id="add-Class" class="form-horizontal">
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                        <div class="form-group row">
+                                                            <label class="control-label col-md-3"><b>Name</b></label>
+                                                            <div class="col-md-9">
+                                                                <input name="Name" type="text" class="form-control" ng-model="Eitm.EIName">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="control-label col-md-3"><b>Description</b></label>
+                                                            <div class="col-md-9">
+                                                                <input name="Description" type="text" class="form-control" ng-model="Eitm.EDescription">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="control-label col-md-3"><b>Quantity</b></label>
+                                                            <div class="col-md-9">
+                                                                <input name="Quantity" type="text" class="form-control" ng-model="Eitm.EQuantity">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                        <div class="form-group row">
+                                                            <label class="control-label col-md-3"><b>Price</b></label>
+                                                            <div class="col-md-9">
+                                                                <input name="price" type="text" class="form-control" ng-model="Eitm.EPrice">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="control-label col-md-3"><b>Total</b></label>
+                                                            <div class="col-md-9">
+                                                                <input name="tprice" type="text" class="form-control" ng-model="Eitm.ETotal">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="control-label col-md-3"><b>Date</b></label>
+                                                            <div class="col-md-9">
+                                                                <input name="date" type="text" id="updatedate" class="form-control" ng-model="Eitm.EStDate">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="ti-close" aria-hidden="true"></i> Close</button>
+                                        <button type="button" class="btn btn-blue" data-dismiss="modal" ng-click="editExpenses(Eitm)"><i class="ti-pencil-alt" aria-hidden="true"></i> Update</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Edit Modal -->
+                        <div ng-show="loadingdata" style="margin-top: 50px" class="d-flex justify-content-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

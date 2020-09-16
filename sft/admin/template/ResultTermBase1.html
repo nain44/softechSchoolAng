@@ -1,0 +1,128 @@
+
+<div class="page-heading">
+    <ol class="breadcrumb pb-3">
+        <li class="breadcrumb-item">
+            <a href="" ui-sref="home"><i class="la la-home font-20"></i></a>
+        </li>
+        <li class="breadcrumb-item"> Term Base</li>
+    </ol>
+</div>
+<div class="ibox">
+    <div class="ibox-body">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h4 class="pb-3">
+                    Students Result
+                    <button href="" class="btn btn-sm btn-outline-primary btn-rounded" data-toggle="collapse" data-target="#AddResult" style="float:right;" ng-click="clear()">
+                        <i class="ti-plus" aria-hidden="true"></i> Add Result
+                    </button>
+                </h4>
+                <!-- collapse -->
+                <div class="collapse" id="AddResult">
+                    <form class="form-inline" name="Form">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <select class="form-control form-control-rounded input col-md-2" ng-model="rslt.stdName">
+                                        <option value="">Select Student</option>
+                                        <option value="1">1st Term</option>
+                                        <option value="2">2nd Term</option>
+                                        <option value="3">Anuual Term</option>
+                                    </select>
+                                    <select class="form-control form-control-rounded input col-md-2" ng-model="rslt.term" ng-disabled="!rslt.stdName">
+                                        <option value="">Select Term</option>
+                                        <option value="1">1st Term</option>
+                                        <option value="2">2nd Term</option>
+                                        <option value="3">Anuual Term</option>
+                                    </select>
+                                    <select ng-options="item.sb_name for item in getallsbjtdrp track by item.sb_id" class="form-control form-control-rounded input col-md-2" ng-change="sm(rslt.sbjtname)" ng-model="rslt.sbjtname" ng-disabled="!rslt.term">
+                                        <option value="">Select Subject</option>
+                                    </select>
+                                    <input name="gname" type="text" class="form-control form-control-rounded input col-md-2" ng-model="rslt.Omarks" placeholder="Obtain Marks" ng-disabled="!rslt.sbjtname">
+                                    <input name="fname" type="text" class="form-control form-control-rounded input col-md-2" ng-model="rslt.Tmarks" placeholder="Total Marks" ng-disabled="!rslt.Omarks">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-danger btn-rounded" data-toggle="collapse" data-target="#AddResult" ng-click="clear()">
+                            <i class="ti-close" aria-hidden="true"></i> Close
+                        </button>
+                        <button type="button" class="btn btn-sm btn-info btn-rounded" data-toggle="collapse" data-target="#AddResult" ng-click="editStudent(estnd)" ng-disabled="!rslt.Tmarks">
+                            <i class="ti-pencil-alt" aria-hidden="true"></i> Submit Result
+                        </button>
+                    </div>
+                </div>
+                <!-- collapse -->
+                <div class="form-group">
+                    <form class="form-inline">
+                        <select ng-options="item.cls_title for item in getAllClasses track by item.cls_id" class="form-control form-control-rounded input col-md-2" ng-model="stnd.class">
+                            <option value="">Select Class</option>
+                        </select>
+                        <button ng-click="getAllStudents(srch)" class="btn btn-outline-info btn-rounded"><i class="ti-search" aria-hidden="true"></i> Search</button>
+                        <button ng-click="clearData()" class="btn btn-outline-danger btn-rounded input" href=""><i class="ti-brush"></i> Clear</button>
+                    </form>
+                </div>
+                <div class="table-responsive row">
+                    <table class="table table-bordered table-hover" id="example" cellspacing="0" width="100%">
+                        <thead class="thead-default">
+                            <tr>
+                                <th>No</th>
+                                <th>Name</th>
+                                <th>Class</th>
+                                <th>Subject</th>
+                                <th>Total Marks</th>
+                                <th>Obtained Marks</th>
+                                <!-- <th>Sibilings</th> -->
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="text-capitalize" ng-repeat="stdnt in allStudentArray">
+                                <td>{{ $index+1 }}</a></td>
+                                <td><a href="" ui-sref="StudentProfile">{{ stdnt.std_name }}</a></td>
+                                <!-- <td>{{ stdnt.cls_id }}</td> -->
+                                <td>
+                                    <span ng-if="stdnt.cls_id==11">Play Group</span>
+                                    <span ng-if="stdnt.cls_id==12">Nursary</span>
+                                    <span ng-if="stdnt.cls_id==13">KG</span>
+                                    <span ng-if="stdnt.cls_id==1">1<sup>st</sup></span>
+                                    <span ng-if="stdnt.cls_id==2">2<sup>nd</sup></span>
+                                    <span ng-if="stdnt.cls_id==3">3<sup>rd</sup></span>
+                                    <span ng-if="stdnt.cls_id==4">4<sup>th</sup></span>
+                                    <span ng-if="stdnt.cls_id==5">5<sup>th</sup></span>
+                                    <span ng-if="stdnt.cls_id==6">6<sup>th</sup></span>
+                                    <span ng-if="stdnt.cls_id==7">7<sup>th</sup></span>
+                                    <span ng-if="stdnt.cls_id==8">8<sup>th</sup></span>
+                                    <span ng-if="stdnt.cls_id==9">9<sup>th</sup></span>
+                                    <span ng-if="stdnt.cls_id==10">10<sup>th</sup></span>
+                                </td>
+                                <td>{{ stdnt.std_fName}}</td>
+                                <td>{{stdnt.totalMarks}}</td>
+                                <td>
+                                    <input type="text" ng-model="stdnt.obtMarks" class="btn btn-sm btn-outline-primary btn-rounded" tabindex="1" ng-blur="checkName(stdnt.obtMarks, stdnt.std_id)">
+                                    {{stdnt.stdnt_obtMarks}}
+                                </td>
+                                <!-- <td>{{ stdnt.std_siblings}}</td> -->
+                                <td>
+
+                                    <button class="btn btn-primary btn-rounded" href="" ng-click="getDMC()">
+                                        <i class="ti-medall-alt" aria-hidden="true"></i> Result Card
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div ng-show="loadingdata" align="center">
+                    <img src="img/loder.gif">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

@@ -1,0 +1,160 @@
+<div class="page-heading">
+    <br>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="" ui-sref="home"><i class="la la-home font-20"></i></a>
+        </li>
+        <li class="breadcrumb-item"> Student Profile</li>
+    </ol><br>
+</div>
+<div class="page-header">
+    <div class="ibox flex-1">
+        <div class="ibox-body">
+            <div class="flexbox">
+                <div class="flexbox-b">
+                    <div>
+                        <h4>About Student</h4>
+                    </div>
+                </div>
+                <!--<div class="d-inline-flex">-->
+                <!--    <div class="px-4 text-center">-->
+                <!--        <div class="text-muted font-13">ARTICLES</div>-->
+                <!--        <div class="h2 mt-2">134</div>-->
+                <!--    </div>-->
+                <!--    <div class="px-4 text-center">-->
+                <!--        <div class="text-muted font-13">FOLLOWERS</div>-->
+                <!--        <div class="h2 mt-2">540</div>-->
+                <!--    </div>-->
+                <!--</div>-->
+            </div>
+        </div>
+        <!--<ul class="nav nav-tabs tabs-line m-0 pl-5 pr-3">-->
+        <!--    <li class="nav-item">-->
+        <!--        <a class="nav-link active" data-toggle="tab">Overview</a>-->
+        <!--    </li>-->
+        <!--    <li class="nav-item">-->
+        <!--        <a class="nav-link" data-toggle="tab">Profile</a>-->
+        <!--    </li>-->
+        <!--    <li class="nav-item">-->
+        <!--        <a class="nav-link" data-toggle="tab">Settings</a>-->
+        <!--    </li>-->
+        <!--    <li class="nav-item">-->
+        <!--        <a class="nav-link" data-toggle="tab">Activity</a>-->
+        <!--    </li>-->
+        <!--</ul>-->
+    </div>
+</div>
+<div class="page-content fade-in-up">
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="ibox" style="border-top: 3px solid #00C0EF;">
+                <div class="ibox-body">
+                    <div class="ml-5 mr-5 text-center">
+                        <img class="img-circle stdimag" src="{{stdpicture}}" width="130"/>
+                        <!--<img class="img-circle" src="./assets/img/users/u8.jpg" alt="image" width="110" />-->
+                    </div>
+                    <hr class="alert-primary">
+                    <h2 class="font-strong text-center">{{stdName}}</h2>
+                    <hr>
+                    <div class="mr-3 text-center">
+                        <span><span class="badge badge-primary badge-circle mr-2 font-14" style="height:30px;width:30px;"><i class="ti-briefcase"></i></span>Addmission No : 0{{stdadmissionNo}}</span>
+                    </div>
+                    <hr>
+                    <div class="mr-3 text-center">
+                        <span><span class="badge badge-success badge-circle mr-2 font-14" style="height:30px;width:30px;"><i class="ti-cup"></i></span>Registration No : 0{{stdregNo}}</span>
+                    </div>
+                    <div ng-show="loadingdata" align="center">
+                        <div class="fa fa-spinner fa-pulse fa-2x fa-fw"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="ibox" style="border-top: 3px solid #00C0EF;">
+                <div class="ibox-body">
+                    <h5 class="font-strong mb-4">Personal Information</h5>
+                    <div class="row mb-2">
+                        <div class="col-8 text-muted">Father Name :</div>
+                        <div class="col-4"><b>{{stdfName}}</b></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-8 text-muted">Gardian Relation :</div>
+                        <div class="col-4"><b>{{stdgRelation}}</b></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-8 text-muted">Date of Brith :</div>
+                        <div class="col-4"><b>{{stdDob}}</b></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-8 text-muted">Class :</div>
+                        <div class="col-4"><b>{{clstitle}} / {{sectitle}}</b></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-8 text-muted">Gender :</div>
+                        <div class="col-4"><b>{{stdgender}}</b></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-8 text-muted">Address :</div>
+                        <div class="col-4"><b>{{stdaddress}}</b></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-8 text-muted">Father Phone :</div>
+                        <div class="col-4"><b>{{stdfContact}}</b></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-8 text-muted">Father CNIC :</div>
+                        <div class="col-4"><b>{{stdfCnic}}</b></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-8 text-muted">Addmission Date :</div>
+                        <div class="col-4"><b>{{dateadd |date:"dd-MM-yyyy"}}</b></div>
+                    </div>
+                    <div ng-show="loadingdata" align="center" style="margin-top: 50px">
+                        <div class="fa fa-spinner fa-pulse fa-2x fa-fw"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--<div class="col-lg-5">-->
+        <!--    <div class="ibox">-->
+        <!--        <div class="ibox-body">-->
+        <!--            <h5 class="font-strong mb-4">BIOGRAPHY</h5>-->
+        <!--            <p>Lorem Ipsum Aliqua id consequat laborum incididunt adipiscing ut consectetur dolor voluptate non est ex dolore voluptate fugiat adipiscing qui deserunt nisi magna irure tempor non cupidatat amet fugiat est ad sint adipiscing-->
+        <!--                est officia cillum consectetur reprehenderit non.</p>-->
+        <!--        </div>-->
+        <!--    </div>-->
+        <!--    <div class="ibox">-->
+        <!--        <div class="ibox-body">-->
+        <!--            <h5 class="font-strong mb-4">PROJECTS</h5>-->
+        <!--            <div class="flexbox-b mb-4">-->
+        <!--                <span class="btn-icon-only btn-pink font-20 mr-3">AC</span>-->
+        <!--                <div class="flex-1">-->
+        <!--                    <div class="font-strong font-16">ADMINCA<small class="text-muted float-right">12.07.2018</small></div>-->
+        <!--                    <div class="text-muted">Bootstrap Admin Template</div>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--            <div class="row">-->
+        <!--                <div class="col-6 flexbox-b"><i class="la la-calendar-check-o font-26 text-light mr-3"></i>-->
+        <!--                    <div class="flex-1">-->
+        <!--                        <div>-->
+        <!--                            <span class="text-light mr-3">Tasks:</span>13 / 25</div>-->
+        <!--                        <div class="progress mt-1">-->
+        <!--                            <div class="progress-bar" role="progressbar" style="width:52%; height:5px;" aria-valuenow="52" aria-valuemin="0" aria-valuemax="100"></div>-->
+        <!--                        </div>-->
+        <!--                    </div>-->
+        <!--                </div>-->
+        <!--                <div class="col-6 flexbox-b"><i class="la la-hourglass-1 font-26 text-light mr-3"></i>-->
+        <!--                    <div class="flex-1">-->
+        <!--                        <div>-->
+        <!--                            <span class="text-light mr-3">Expiration:</span>25.04</div>-->
+        <!--                        <div class="progress mt-1">-->
+        <!--                            <div class="progress-bar bg-success" role="progressbar" style="width:67%; height:5px;" aria-valuenow="67" aria-valuemin="0" aria-valuemax="100"></div>-->
+        <!--                        </div>-->
+        <!--                    </div>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--    </div>-->
+        <!--</div>-->
+    </div>
+</div>

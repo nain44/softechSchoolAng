@@ -1,0 +1,123 @@
+<div class="row">
+  <div class="col-12 col-xl-12 grid-margin stretch-card">
+    <div class="card overflow-hidden">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-baseline mb-4 mb-md-3">
+          <h6 class="card-title mb-0">Proffession</h6>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <form class="form-inline" name="Form">
+              <div class="form-group">
+                <input type="text" class="form-control col-md-3 input"  name="" ng-model="srch.title" placeholder="Title" />
+                <input type="text" class="form-control col-md-3 input" name="desc" ng-model="srch.description" placeholder="Description">
+                <input type="text" class="form-control col-md-3 input" name="scale" ng-model="srch.scale" placeholder="Scale">
+                <button type="button" class="btn btn-success input" ng-click="insertProffessionFunc(srch)"><i class="ti-plus" aria-hidden="true"></i> Add Proffession</button>
+              </div>
+            </form>
+            <hr>
+            <div class="table-responsive tbl-mlmis text-capitalize">
+              <table class="table table-bordered table-hover" cellspacing="0" width="100%">
+                <thead class="thead-default">
+                  <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Scale</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="prff in allFeeArray">
+                    <td>{{ prff.prf_title }}</td>
+                    <td>{{ prff.prf_description }}</td>
+                    <td>{{ prff.prf_scale }}</td>
+                    <td>
+                      <button type="button" class="btn btn-primary btn-icon" data-toggle="modal" data-target="#editProf{{prff.prf_id}}" ng-click="editModal(prff)">
+                        <i class="ti-pencil-alt"></i>
+                      </button>
+                      <button type="button" class="btn btn-danger2 btn-icon" data-toggle="modal" data-target="#delete{{prff.prf_id}}">
+                        <i class="ti-trash"></i>
+                      </button>
+                      <!-- Delete Alert -->
+                      <div class="modal fade bd-example-modal-sm" data-backdrop="static" data-keyboard="false" role="dialog" id="delete{{prff.prf_id}}">
+                        <div class="modal-dialog modal-sm">
+                          <div class="modal-content">
+                            <div class="modal-body">
+                              <div class="form-group" align="center">
+                                <i class="ti-trash" style="font-size: 60px;"></i>
+                                <h4 style="margin-top: 27px;">Are you Sure?</h4>
+                                <p>You won't be able to revert this!</p>
+                              </div>
+                            </div>
+                            <div class="modal-footer ">
+                              <button type="button" class="btn btn-danger2" data-dismiss="modal"> Cancel</button>
+                              <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="deleteProffessionFunc(prff.prf_id)"> Yes, delete it! </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Delete Alert -->
+                      <!-- Modal -->
+                      <div class="modal fade" id="editProf{{prff.prf_id}}" role="dialog">
+                        <div class="modal-dialog">
+                          <!--Modal content-->
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h4 class="modal-title">Update Proffession</h4>
+                              <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                              <form id="Edit-Fee" class="Edit-Fee">
+                                <div class="row">
+                                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group row">
+                                      <label class="control-label col-md-3"><b>Title</b></label>
+                                      <div class="col-md-9">
+                                        <input name="" type="text" ng-model="prff.prf_title" class="form-control col-md-12" placeholder="Title">
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group row">
+                                      <label class="control-label col-md-3"><b>Description</b></label>
+                                      <div class="col-md-9">
+                                        <input name="" type="text" ng-model="prff.prf_description" class="form-control col-md-12" placeholder="Description">
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group row">
+                                      <label class="control-label col-md-3"><b>Scale</b></label>
+                                      <div class="col-md-9">
+                                        <input name="" type="text" ng-model="prff.prf_scale" class="form-control col-md-12" placeholder="Scale">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </form>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-danger2" data-dismiss="modal"><i class="ti-close" aria-hidden="true"></i> Close</button>
+                              <button type="button" class="btn btn-info" ng-click="editProffessionfunc(prff)" data-dismiss="modal"><i class="ti-pencil-alt" aria-hidden="true"></i> Update</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Modal -->
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div ng-show="loadingdata" style="margin-top: 50px" class="d-flex justify-content-center">
+              <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- row -->

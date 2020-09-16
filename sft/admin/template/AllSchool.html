@@ -1,0 +1,229 @@
+﻿<div class="page-heading">
+    <ol class="breadcrumb pb-3">
+        <li class="breadcrumb-item">
+            <a href="" ui-sref="home"><i class="la la-home font-20"></i></a>
+        </li>
+        <li class="breadcrumb-item"> Schools</li>
+    </ol>
+</div>
+<div class="ibox">
+    <div class="ibox-body">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h4 class="pb-3">All Schools
+                <button href="" class="btn btn-sm btn-primary-2 btn-rounded" data-toggle="collapse" data-target="#addsch" style="float:right;">
+                    <i class="ti-plus" aria-hidden="true"></i> Register School
+                </button></h4>
+                <!-- collapse 1-->
+                <div class="collapse" id="addsch">
+                    <form class="form-inline" name="Form">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <input name="registrationNo" type="text" class="form-control form-control-rounded input col-md-2" ng-model="sch.RegNo" placeholder="Registration No">
+                                    <input name="schcode" type="text" class="form-control form-control-rounded input col-md-2" ng-model="sch.Code" placeholder="School Code">
+                                    <input name="Name" type="text" class="form-control form-control-rounded input col-md-2" ng-model="sch.Name" placeholder="School Name">
+                                    <input name="Owner" type="text" class="form-control form-control-rounded input col-md-2" ng-model="sch.Owner" placeholder="School's Owner">
+                                    <input name="contactPerson" type="text" class="form-control form-control-rounded input col-md-2" ng-model="sch.Cperson" placeholder="Contact Person">
+                                    <input name="SchContact" type="text" class="form-control form-control-rounded input col-md-2" ng-model="sch.Contact" placeholder="School Contact">
+                                    <input name="email" type="text" class="form-control form-control-rounded input col-md-2" ng-model="sch.Email" placeholder="School Email">
+                                    <input name="Address" type="text" class="form-control form-control-rounded input col-md-2" ng-model="sch.Address" placeholder="Address">
+                                    <input name="tehsil" type="text" class="form-control form-control-rounded input col-md-2" ng-model="sch.Tehsil" placeholder="School Tehsil">
+                                    <input name="district" type="text" class="form-control form-control-rounded input col-md-2" ng-model="sch.District" placeholder="School District">
+                                    <select name="class" class="form-control form-control-rounded input col-md-2" ng-model="sch.Level">
+                                        <option value="">School Level</option>
+                                        <option value="0"> Primary</option>
+                                        <option value="1"> Middle</option>
+                                        <option value="2"> High</option>
+                                        <option value="3"> Higher Secondary</option>
+                                        <option value="4"> College</option>
+                                    </select>
+                                    <input name="logo" type="file" class="form-control form-control-rounded input col-md-2" ng-model="sch.logo" placeholder="Logo">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-danger btn-rounded" ng-click="clear()" data-target="#addsch" data-toggle="collapse"><i class="ti-close" aria-hidden="true"></i> Cancel</button>
+                        <button type="button" class="btn btn-sm btn-success btn-rounded" data-target="#addsch" data-toggle="collapse" ng-click="addSchool(sch)"><i class="ti-plus" aria-hidden="true"></i> Add</button>
+                    </div>
+                </div>
+
+                <div class="table-responsive row">
+                    <table class="table table-bordered table-hover" id="example" cellspacing="0" width="100%">
+                        <thead class="thead-default">
+                            <tr>
+                                <th>Reg No</th>
+                                <th>Name</th>
+                                <th>Owner</th>
+                                <th>Contact</th>
+                                <!-- <th>Address</th> -->
+                                <th>School Email</th>
+                                <th>School Level</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="schl in AllSchoolsArray">
+                                <td>{{ schl.sch_regId }}</td>
+                                <td>{{ schl.sch_title }}</td>
+                                <td>{{ schl.sch_owner }}</td>
+                                <td>{{ schl.sch_contactNo }}</td>
+                                <!-- <td>{{ schl.sch_address }}</td> -->
+                                <td>{{ schl.sch_email }}</td>
+                                <td>
+                                    <span ng-if="schl.sch_level==1">Middle</span>
+                                    <span ng-if="schl.sch_level==2">High</span>
+                                    <span ng-if="schl.sch_level==3">Higher Secondary</span>
+                                    <span ng-if="schl.sch_level==4">College</span>
+                                    <span ng-if="schl.sch_level==0">Primary</span>
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-rounded btn-air mb-3">
+                                        <div class="btn btn-outline-info" data-toggle="modal" data-target="#editModal" title="Edit" ng-click="editModal(schl)"><i class="ti-pencil-alt" aria-hidden="true"></i> Update</div>
+                                        <div class="btn btn-outline-danger" data-toggle="modal" title="Trash" data-target="#delete{{schl.sch_id}}"><i class="ti-trash" aria-hidden="true"></i> Delete</div>
+                                    </div>
+                                    <!-- Delete Alert -->
+                                    <div class="modal fade bd-example-modal-sm" data-backdrop="static" data-keyboard="false" role="dialog" id="delete{{schl.sch_id}}">
+                                        <div class="modal-dialog modal-sm">
+                                            <div class="modal-content">
+                                                <div class="modal-body">
+                                                    <div class="form-group" align="center">
+                                                        <img src="img/images.png">
+                                                        <h4>Are you Sure?</h4>
+                                                        <p>You won't be able to revert this!</p>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer ">
+                                                    <button type="button" class="btn btn-sm btn-danger btn-rounded" data-dismiss="modal"> Cancel</button>
+                                                    <button type="button" class="btn btn-sm btn-primary-2 btn-rounded" data-dismiss="modal" ng-click="deleteSchool(schl.sch_id)"> Yes, Delete it! </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Delete Alert -->
+                                    <!-- <button data-toggle="modal" data-target="#editModal" title="Edit" class="btn btn-sm btn-info btn-rounded" ng-click="editModal(schl)"><i class="ti-pencil-alt" aria-hidden="true"></i> Update</button> -->
+                                    <!-- <button data-toggle="modal" title="Trash" data-target="#delete{{schl.sch_id}}" class="btn btn-sm btn-danger btn-rounded"><i class="ti-trash" aria-hidden="true"></i> Delete</button> -->
+                                </td>                                    
+                            </tr>
+                        </tbody>
+                    </table> 
+                </div>
+                <div ng-show="loadingdata" align="center">
+                    <img src="img/loder.gif">
+                </div> 
+                                  
+
+                <!-- Modal 2-->
+                <div class="modal fade bd-example-modal-lg" id="editModal" role="dialog">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Update School</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <form class="edit-Class">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-5"><b>Registration No</b></label>
+                                                        <div class="col-md-7">
+                                                            <input name="registrationNo" type="text" class="form-control form-control-rounded" ng-model="esch.eRegNo" placeholder="Registration No">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-5"><b>School Code</b></label>
+                                                        <div class="col-md-7">
+                                                            <input name="schcode" type="text" class="form-control form-control-rounded" ng-model="esch.eCode" placeholder="School Code">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-5"><b>School Name</b></label>
+                                                        <div class="col-md-7">
+                                                            <input name="Name" type="text" class="form-control form-control-rounded" ng-model="esch.eName" placeholder="School Name">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-5"><b>School's Owner</b></label>
+                                                        <div class="col-md-7">
+                                                            <input name="Owner" type="text" class="form-control form-control-rounded" ng-model="esch.eOwner" placeholder="School's Owner">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-5"><b>Contact Person</b></label>
+                                                        <div class="col-md-7">
+                                                            <input name="Cperson" type="text" class="form-control form-control-rounded" ng-model="esch.eCperson" placeholder="Contact Person">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-5"><b>School Contact</b></label>
+                                                        <div class="col-md-7">
+                                                            <input name="Contact" type="text" class="form-control form-control-rounded" ng-model="esch.eContact" placeholder="School Contact">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-5"><b>School Email</b></label>
+                                                        <div class="col-md-7">
+                                                            <input name="Email" type="text" class="form-control form-control-rounded" ng-model="esch.eEmail" placeholder="School Email">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-5"><b>School Address</b></label>
+                                                        <div class="col-md-7">
+                                                            <input name="Address" type="text" class="form-control form-control-rounded" ng-model="esch.eAddress" placeholder="Address">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-5"><b>School Tehsil</b></label>
+                                                        <div class="col-md-7">
+                                                            <input name="tehsil" type="text" class="form-control form-control-rounded" ng-model="esch.eTehsil" placeholder="School Tehsil">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-5"><b>School District</b></label>
+                                                        <div class="col-md-7">
+                                                            <input name="District" type="text" class="form-control form-control-rounded" ng-model="esch.eDistrict" placeholder="School District">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-5"><b>School Level</b></label>
+                                                        <div class="col-md-7">
+                                                            <select name="class" class="form-control form-control-rounded" ng-model="esch.eLevel">
+                                                                <option value="">School Level</option>
+                                                                <option value="0">Primary</option>
+                                                                <option value="1">Middle</option>
+                                                                <option value="2">High</option>
+                                                                <option value="3">Higher Secondary</option>
+                                                                <option value="4">College</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="control-label col-md-5"><b>School Logo</b></label>
+                                                        <div class="col-md-7">
+                                                            <input name="logo" type="file" class="form-control form-control-rounded" ng-model="esch.logo" placeholder="Logo">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-sm btn-danger btn-rounded" data-dismiss="modal"><i class="ti-close"></i> Close</button>
+                                <button type="button" class="btn btn-sm btn-info btn-rounded" data-dismiss="modal" ng-click="editSchool(esch)"><i class="ti-pencil-alt"></i> Update</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal 2-->
+            </div>
+        </div>
+    </div>
+</div>

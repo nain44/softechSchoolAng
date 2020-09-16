@@ -1,0 +1,92 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+  <div>
+    <h4 class="mb-3 mb-md-0">Welcome to Dashboard</h4>
+  </div>
+  <div class="d-flex align-items-center flex-wrap text-nowrap">
+    <div class="input-group date datepicker dashboard-date mr-2 mb-2 mb-md-0 d-md-none d-xl-flex" id="dashboardDate">
+      <span class="input-group-addon bg-transparent"><i data-feather="calendar" class=" text-primary"></i></span>
+      <input type="text" class="form-control">
+    </div>
+  </div>
+</div>
+
+<!-- row -->
+<div class="row">
+  <div class="col-12 col-xl-12 grid-margin stretch-card">
+    <div class="card overflow-hidden">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-baseline mb-4 mb-md-3">
+          <h6 class="card-title mb-0">Dashboard</h6>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6 grid-margin">
+            <div class="card text-white bg-primary">
+              <div class="card-header ulfont">Fee Management</div>
+              <div class="card-body">
+                <!-- <h5 class="card-title text-white">Fee Management</h5> -->
+                <ul class="ulfont">
+                  <li><a href="" ui-sref="AddFee" class="small mg-t-box">Add Fee</a></li>
+                  <li><a href="" ui-sref="AllFee" class="small mg-t-box">View Fees</a></li>
+                  <li><a href="" ui-sref="addSingleStdFee" class="small mg-t-box">Individual Fee Submission</a></li>
+                  <li><a href="" ui-sref="AddstdFee" class="small mg-t-box">Monthly Fee Submission</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 grid-margin">
+            <div class="card text-white bg-secondary">
+              <div class="card-header ulfont">Transaction</div>
+              <div class="card-body">
+                <ul class="ulfont">
+                  <li><a href="" ui-sref="Incomes" class="small mg-t-box">Incomes</a></li>
+                  <li style="margin-bottom: 65px"><a href="" ui-sref="expencies" class="small mg-t-box">Expencies</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 grid-margin">
+            <div class="card text-white bg-success">
+              <div class="card-header ulfont">Attendance</div>
+              <div class="card-body">
+                <ul class="ulfont">
+                  <li><a href="" ui-sref="AttendanceReport" class="small mg-t-box">All Attendance Report</a></li>
+                  <li><a href="" ui-sref="ClassAttendance" class="small mg-t-box"> Class Attendance</a></li>
+                  <li><a href="" ui-sref="staffAttendance" class="small mg-t-box">Staff Attendance</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 grid-margin">
+              <div class="card text-white bg-dark">
+                <div class="card-header ulfont2">Exam</div>
+                <div class="card-body">
+                  <ul class="ulfont2">
+                    <li>
+                      <a href="" ui-sref="ResultTermBase" class="small mg-t-box">Add Result</a></li>
+                    <li>
+                      <a href="dmc/#!/resultcard" target="_blank" class="small mg-t-box">Print Result</a>
+                    </li>
+                    <li>
+                      <a href="dmc/#!/awardlist" target="_blank" class="small mg-t-box">Award List</a>
+                    </li>
+                  </ul>
+              </div>
+            </div>
+          </div> <div class="col-12 col-md-6 grid-margin">
+              <div class="card text-white bg-dark">
+                <div class="card-header ulfont2">Backup</div>
+                <div class="card-body">
+                  <ul class="ulfont2">
+                   
+                      <a href="" ng-click="getBackup()" target="_blank" class="small mg-t-box">BackUp</a>
+                    </li>
+                    
+                  </ul>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- row -->

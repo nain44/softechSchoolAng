@@ -1,0 +1,124 @@
+<div class="container register">
+  <div class="row">
+    <div class="col-md-3 register-left">
+      <img src="education13.png" alt=""/>
+      <h3>Welcome</h3>
+      <p>If your School is not Register then click on Sign up</p>
+      <!-- <input type="submit" name="" value="Login"/><br/> -->
+    </div>
+    <div class="col-md-9 register-right">
+      <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Sign In</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Sign Up</a>
+        </li>
+      </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <h3 class="register-heading">Sign In</h3>
+            <form>
+              <div class="row register-form">
+                <div class="col-md-6 offset-md-3">
+                  <span style="color: red" ng-if="Showmsg">Username and Password does not Match</span>
+                  <span style="color: red" ng-if="Authmsg">You are not an Authorize Person</span>
+                  <div class="form-group">
+                    <input type="text" name="name" class="form-control" ng-model="log.name" placeholder="User Name"/>
+                  </div>
+                  <div class="form-group">
+                    <input type="password" name="password" class="form-control" ng-model="log.Pass" placeholder="Password"/>
+                  </div>
+                  <div class="form-group">
+                      <select ng-model="log.sessionY" class="form-control" required>
+                          <option value="">Select Session</option>
+                          <option value="2019-03-01">2019-20</option>
+                          <option value="2020-03-01">2020-21</option>
+                          <option value="2021-03-01">2021-22</option>
+                          <option value="2022-03-01">20122-23</option>
+                          <option value="2023-03-01">2023-24</option>
+                          <option value="2024-03-01">2024-25</option>
+
+                      </select>
+                   <!-- <input type="text" name="datepickerY" class="form-control" id="datepickerY" ng-model="log.sessionY" placeholder="Select Session" autocomplete="off"/>-->
+                  </div>
+                  <div class="form-group" align="center">
+                    <button type="btn" class="btnRegister" ng-click="login(log)">
+                      <i class="fas fa-sign-in-alt"></i> Sign In
+                      <span>&nbsp;&nbsp;
+                        <i ng-show="loading" class="fa fa-spinner fa-pulse fa-lg fa-fw ng-hide"></i>
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="tab-pane fade show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <h3  class="register-heading">Sign Up</h3>
+            <form>
+              <div class="row register-form">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input name="registrationNo" type="text" class="form-control form-control-rounded" ng-model="sch.RegNo" placeholder="Registration No">
+                  </div>
+                  <div class="form-group">
+                    <input name="schcode" type="text" class="form-control form-control-rounded" ng-model="sch.Code" placeholder="School Code">
+                  </div>
+                  <div class="form-group">
+                    <input name="Name" type="text" class="form-control form-control-rounded" ng-model="sch.Name" placeholder="School Name">
+                  </div>
+                  <div class="form-group">
+                    <input name="Owner" type="text" class="form-control form-control-rounded" ng-model="sch.Owner" placeholder="School's Owner">
+                  </div>
+                  <div class="form-group">
+                    <input name="contactPerson" type="text" class="form-control form-control-rounded" ng-model="sch.Cperson" placeholder="Contact Person">
+                  </div>
+                  <div class="form-group">
+                    <input name="SchContact" type="text" class="form-control form-control-rounded" ng-model="sch.Contact" placeholder="School Contact">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input name="email" type="text" class="form-control form-control-rounded" ng-model="sch.Email" placeholder="School Email">
+                  </div>
+                  <div class="form-group">
+                    <input name="Address" type="text" class="form-control form-control-rounded" ng-model="sch.Address" placeholder="Address">
+                  </div>
+                  <div class="form-group">
+                    <input name="tehsil" type="text" class="form-control form-control-rounded" ng-model="sch.Tehsil" placeholder="School Tehsil">
+                  </div>
+                  <div class="form-group">
+                    <input name="district" type="text" class="form-control form-control-rounded" ng-model="sch.District" placeholder="School District">
+                  </div>
+                  <div class="form-group">
+                    <select name="class" class="form-control form-control-rounded" ng-model="sch.Level">
+                      <option value="">School Level</option>
+                      <option value="0"> Primary</option>
+                      <option value="1"> Middle</option>
+                      <option value="2"> High</option>
+                      <option value="3"> Higher Secondary</option>
+                      <option value="4"> College</option>
+                  </select>
+                  </div>
+                  <div class="form-group">
+                      <input name="image" id="image" type="file" class="btn btn-sm btn-primary btn-rounded" file-upload file1 placeholder="Logo">
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group" align="center">
+                    <button type="btn" class="btnRegister2" ng-click="addSchool(sch)">
+                      <i class="fas fa-sign-in-alt"></i> Sign Up
+                      <span>&nbsp;&nbsp;
+                          <i ng-show="spinner" class="fa fa-spinner fa-pulse fa-lg fa-fw ng-hide"></i>
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>

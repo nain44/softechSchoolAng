@@ -1,0 +1,86 @@
+<div class="row">
+    <div class="col-12 col-xl-12 grid-margin stretch-card">
+        <div class="card overflow-hidden">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-baseline mb-4 mb-md-3">
+                    <h6 class="card-title mb-0"> Add Sections to Class</h6>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <form class="form-inline">
+                            <select ng-options="item.cls_title for item in getAllClasses track by item.cls_id" class="form-control input col-md-2" ng-model="srch.classId" ng-change="getSections(srch.classId.cls_id)">
+                                <option value="" selected="">Select Class</option>
+                            </select>
+                            <select ng-options="item.sec_title for item in dataSection track by item.sec_id" class="form-control input col-md-2" ng-model="srch.section">
+                                <option value="" selected="">Select Section</option>
+                            </select>
+
+                            <!--<input type="text" class="form-control col-md-2 input" id="datepickerd" name="datepickerd" ng-model="srch.day" placeholder="Select day" autocomplete="off" />-->
+                            <button class="btn btn-blue input" ng-click="getAllAttendanceFunc(srch)"><i class="ti-search" aria-hidden="true"></i> Search</button>
+                            <button ng-click="clearData()" class="btn btn-danger input" href=""><i class="ti-brush"></i> Clear</button>
+                        </form>
+                        <!--<div ng-show="loadingdata" align="center">
+                            <img src="img/loder.gif">
+                        </div>-->
+                        <div class="tbl-mlmis text-capitalize">
+                            <table class="table table-bordered table-hover" id="" cellspacing="0" width="100%">
+                                <thead class="thead-default">
+                                    <tr>
+                                        <th>
+                                            Select All
+                                            <form name="myform"> <input type="checkbox" id="cat1main" ng-change="checkall1()" ng-init="object2.selected1=false" ng-model="object2.selected1" /></form>
+                                        </th>
+                                        <th>Add No</th>
+                                        <th>Name/F-Name</th>
+                                        <th>Class</th>
+                                        <th>
+                                            <select ng-options="item.cls_title for item in getAllClasses track by item.cls_id" class="btn btn-white col-md-3" ng-model="drp.classes" ng-change="getSections(drp.classes.cls_id)">
+                                                <option value="" selected="">Select Class</option>
+                                            </select>
+                                            <select ng-options="item.sec_title for item in dataSection track by item.sec_id" class="btn btn-white col-md-3" ng-model="drp.sections">
+                                                <option value="" selected="">Select Section</option>
+                                            </select>
+                                            <button type="button" class="btn btn-white" ng-disabled="disableButton" ng-click="promotStudentFunc(drp)">
+                                                <i class="ti-plus" aria-hidden="true"></i> Promote
+                                            </button>
+                                            <button type="button" class="btn btn-danger" ng-click="resetClassAttendanceFunc()">
+                                                <i class="ti-close" aria-hidden="true"></i> Cancel
+                                            </button>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="fee in allFeeArray track by fee.std_id">
+                                        <td>
+                                            <input type="checkbox" id="check{{fee.std_id}}" ng-disabled="seletedones2[fee.std_id] || seletedones3[fee.std_id]" ng-model="seletedones[fee.std_id]" ng-change="selectchecked()" />
+                                        </td>
+                                        <td>{{fee.std_admissionNo}}</td>
+                                        <td>
+                                            <a href="" ui-sref="StudentProfile">{{ fee.std_name }} / {{ fee.std_fName }}</a>
+                                        </td>
+                                        <td>
+                                            <span>{{fee.cls_title}} /</span>
+
+                                            <span class="text-danger" ng-if="fee.sec_title=='null' ||fee.sec_title==0 || fee.sec_title=='undefined'">NA</span>
+                                            <span> {{fee.sec_title}}</span>
+                                        </td>
+                                        <td>
+                                            <!-- <select ng-options="item.sec_title for item in dataSection track by item.sec_id" class="btn btn-info" ng-model="sec.section[fee.std_id]" ng-change="getSec(sec.section[fee.std_id],fee.std_id)">
+                                               <option value="" selected="">Select Section</option>
+                                            </select> -->
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div ng-show="loadingdata" style="margin-top: 50px" class="d-flex justify-content-center">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
