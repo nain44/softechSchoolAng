@@ -1,0 +1,101 @@
+ .footer {
+     background: #f9fafb;
+     padding: 15px 25px 15px;
+     border-top: 1px solid #e8ebf1;
+     transition: all .2s ease;
+     -moz-transition: all .2s ease;
+     -webkit-transition: all .2s ease;
+     -ms-transition: all .2s ease;
+     font-size: calc(.875rem - .05rem);
+     font-family: Overpass, sans-serif;
+     font-weight: 400;
+     margin-top: auto
+ }
+ 
+ .footer a {
+     color: #727cf5;
+     font-size: inherit
+ }
+ 
+ .footer svg {
+     width: 14px;
+     height: 14px
+ }
+ 
+ @media (max-width:991px) {
+     .footer {
+         padding-bottom: 25px
+     }
+ }
+ 
+ @media (max-width:991px) {
+     .footer {
+         margin-left: 0;
+         width: 100%
+     }
+ }
+ 
+ .d-flex,
+ .data-icon-card-danger .background-icon,
+ .data-icon-card-danger-muted .background-icon,
+ .data-icon-card-dark .background-icon,
+ .data-icon-card-info .background-icon,
+ .data-icon-card-info-muted .background-icon,
+ .data-icon-card-light .background-icon,
+ .data-icon-card-primary .background-icon,
+ .data-icon-card-primary-muted .background-icon,
+ .data-icon-card-secondary .background-icon,
+ .data-icon-card-success .background-icon,
+ .data-icon-card-warning .background-icon,
+ .swal2-modal {
+     display: flex !important
+ }
+ 
+ .flex-column {
+     flex-direction: column !important
+ }
+ 
+ .flex-row-reverse {
+     flex-direction: row-reverse !important
+ }
+ 
+ .flex-column-reverse {
+     flex-direction: column-reverse !important
+ }
+ 
+ @media (min-width:768px) {
+     .flex-md-row {
+         flex-direction: row !important
+     }
+     .flex-md-column {
+         flex-direction: column !important
+     }
+     .flex-md-row-reverse {
+         flex-direction: row-reverse !important
+     }
+ }
+ 
+ .align-items-center,
+ .navbar .search-form {
+     align-items: center !important
+ }
+ 
+ .justify-content-between {
+     justify-content: space-between !important
+ }
+ 
+ .justify-content-around {
+     justify-content: space-around !important
+ }
+ 
+ .text-muted {
+     color: #686868 !important
+ }
+ 
+ .text-center {
+     text-align: center !important
+ }
+ 
+ .text-md-left {
+     text-align: left !important
+ }
