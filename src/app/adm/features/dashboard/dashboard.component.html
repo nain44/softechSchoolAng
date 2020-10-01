@@ -44,9 +44,9 @@
                                 <div class="card-header ulfont">Attendance</div>
                                 <div class="card-body">
                                     <ul class="ulfont">
-                                        <li><a href="AttendanceReport" class="small mg-t-box">All Attendance Report</a></li>
-                                        <li><a href="ClassAttendance" class="small mg-t-box"> Class Attendance</a></li>
-                                        <li><a href="staffAttendance" class="small mg-t-box">Staff Attendance</a></li>
+                                        <!-- <li><a href="AttendanceReport" class="small mg-t-box">All Attendance Report</a></li> -->
+                                        <li><a [routerLink]="['/attendance/classAttendance']" class="small mg-t-box"> Class Attendance</a></li>
+                                        <li><a [routerLink]="['/attendance/staffAttendance']" class="small mg-t-box">Staff Attendance</a></li>
                                     </ul>
                                 </div>
                             </div>

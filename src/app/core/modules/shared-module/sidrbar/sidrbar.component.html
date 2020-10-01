@@ -27,25 +27,25 @@
                 <div class="collapse" id="advancedUI">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
-                            <a href="" class="nav-link">Add Session</a>
+                            <a [routerLink]="['/inisetting/AddSession']" class="nav-link">Add Session</a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">Add Staff Proffessions</a>
+                            <a [routerLink]="['/inisetting/ASP']"class="nav-link">Add Staff Proffessions</a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">Add Staff</a>
+                            <a [routerLink]="['/inisetting/AddStaff']" class="nav-link">Add Staff</a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">Add Subjects</a>
+                            <a [routerLink]="['/inisetting/AddSubjects']" class="nav-link">Add Subjects</a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">Add Sections</a>
+                            <a [routerLink]="['/inisetting/AddSections']" class="nav-link">Add Sections</a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">Add Classes</a>
+                            <a [routerLink]="['/inisetting/AddClasses']" class="nav-link">Add Classes</a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">Add Term</a>
+                            <a [routerLink]="['/inisetting/AddTerm']" class="nav-link">Add Term</a>
                         </li>
                     </ul>
                 </div>
@@ -130,14 +130,14 @@
                 <div class="collapse" id="Attendance">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
-                            <a class="nav-link" href=""> Class Attendance</a>
+                            <a class="nav-link" [routerLink]="['/attendance/classAttendance']"> Class Attendance</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href=""> Staff Attendance</a>
+                            <a class="nav-link" [routerLink]="['/attendance/staffAttendance']"> Staff Attendance</a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link" href=""> All Attendance Report</a>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </li>
